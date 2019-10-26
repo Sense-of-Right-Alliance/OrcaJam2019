@@ -22,9 +22,9 @@ public class Scarecrow : MonoBehaviour
         _parts[ScarecrowPartType.Peg] = peg;
     }
 
-    public Transform[] GetScarecrowPartTransforms()
+    public ScarecrowPart[] GetScarecrowPartTransforms()
     {
-        return new Transform[] { head.transform, peg.transform, leftArm.transform, rightArm.transform };
+        return new ScarecrowPart[] { peg, leftArm, rightArm, head };//Transform[] { peg.transform, leftArm.transform, rightArm.transform, head.transform};
     }
 
     private void Update()

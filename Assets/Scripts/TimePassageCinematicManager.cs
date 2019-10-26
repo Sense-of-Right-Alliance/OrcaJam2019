@@ -19,10 +19,12 @@ public class TimePassageCinematicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Space) && !timePassing)
         {
             PassTime();
         }
+        */
 
         if (timePassing)
         {
@@ -37,7 +39,7 @@ public class TimePassageCinematicManager : MonoBehaviour
         }
     }
 
-    void PassTime(float duration=5f)
+    public void PassTime(float duration=5f)
     {
         timePassing = true;
         timer = duration;

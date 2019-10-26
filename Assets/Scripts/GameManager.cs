@@ -20,10 +20,16 @@ public class GameManager : MonoBehaviour
 
     public int currentYear = 1842;
 
+    [SerializeField] float TimePassingDuration = 5f;
+
+    TimePassageCinematicManager timePassageCinematicManager;
+
     private void Awake()
     {
         if (OnSeasonChanged == null) OnSeasonChanged = new SeasonChangedEvent();
         if (OnYearChanged == null) OnYearChanged = new YearChangedEvent();
+
+        timePassageCinematicManager = GameObject.FindObjectOfType<TimePassageCinematicManager>();
     }
 
     private void Start()
@@ -39,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void NextSeason()
     {
+        timePassageCinematicManager.PassTime(TimePassingDuration);
         currentSeasonType = currentSeasonType == SeasonType.Summer ? SeasonType.Fall : (currentSeasonType + 1);
         OnSeasonChanged.Invoke(currentSeasonType);
     }
