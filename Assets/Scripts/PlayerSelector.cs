@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerSelector : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerSelector : MonoBehaviour
     bool inputReset = true; // have to set dir/pad back to 0 before moving again. This is weird and I'm sorry.
 
     GameManager gameManager;
+    Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,11 @@ public class PlayerSelector : MonoBehaviour
 
         ScarecrowSelected = gameManager.scarecrows[scarecrowIndex];
         UpdateSelection();
+    }
+
+    public void Init(Player p)
+    {
+        player = p;
     }
 
     // Update is called once per frame
@@ -49,9 +56,7 @@ public class PlayerSelector : MonoBehaviour
 
         if (Input.GetButtonDown("A"+ InputIndex.ToString()))
         {
-            //Debug.Log("Player " + InputIndex.ToString() + " 'A' button pressed!");
-            ScarecrowPart[] parts = ScarecrowSelected.GetScarecrowPartTransforms();
-            ScarecrowSelected.RepairPart(parts[partIndex].type,1);
+            RepairScarecrow();
             inputReset = false;
             madeInput = true;
         }
@@ -61,6 +66,17 @@ public class PlayerSelector : MonoBehaviour
             inputReset = true;
         } else {
             inputReset = false;
+        }
+    }
+
+    private void RepairScarecrow()
+    {
+        int repairAmount = 1;
+        if (player.Resources >= repairAmount)
+        {
+            ScarecrowPart[] parts = ScarecrowSelected.GetScarecrowPartTransforms();
+            ScarecrowSelected.RepairPart(parts[partIndex].type, repairAmount);
+            player.Resources -= repairAmount;
         }
     }
 
