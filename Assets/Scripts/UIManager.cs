@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,58 +7,71 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI YearText;
-    [SerializeField] TextMeshProUGUI SeasonText;
-    [SerializeField] TextMeshProUGUI WeatherText;
+    public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI yearText;
+    public TextMeshProUGUI seasonText;
+    public TextMeshProUGUI seasonEventText;
 
-    [SerializeField] TextMeshProUGUI ResourceText1;
-    [SerializeField] TextMeshProUGUI ResourceText2;
-    [SerializeField] TextMeshProUGUI ResourceText3;
-    [SerializeField] TextMeshProUGUI ResourceText4;
+    public TextMeshProUGUI resourceText1;
+    public TextMeshProUGUI resourceText2;
+    public TextMeshProUGUI resourceText3;
+    public TextMeshProUGUI resourceText4;
 
-    TextMeshProUGUI[] ResourceTexts;
+    private TextMeshProUGUI[] _resourceTexts;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if (YearText == null) YearText = GameObject.Find("Year Text").GetComponent<TextMeshProUGUI>();
-        if (SeasonText == null) SeasonText = GameObject.Find("Season Text").GetComponent<TextMeshProUGUI>();
-        if (WeatherText == null) WeatherText = GameObject.Find("Weather Text").GetComponent<TextMeshProUGUI>();
+        if (countdownText == null) countdownText = GameObject.Find("Countdown Text").GetComponent<TextMeshProUGUI>();
+        if (yearText == null) yearText = GameObject.Find("Year Text").GetComponent<TextMeshProUGUI>();
+        if (seasonText == null) seasonText = GameObject.Find("Season Text").GetComponent<TextMeshProUGUI>();
+        if (seasonEventText == null) seasonEventText = GameObject.Find("Season Event Text").GetComponent<TextMeshProUGUI>();
 
-        if (ResourceText1 == null) ResourceText1 = GameObject.Find("Resource1").GetComponentInChildren<TextMeshProUGUI>();
-        if (ResourceText2 == null) ResourceText2 = GameObject.Find("Resource2").GetComponentInChildren<TextMeshProUGUI>();
-        if (ResourceText3 == null) ResourceText3 = GameObject.Find("Resource3").GetComponentInChildren<TextMeshProUGUI>();
-        if (ResourceText4 == null) ResourceText4 = GameObject.Find("Resource4").GetComponentInChildren<TextMeshProUGUI>();
-        ResourceTexts = new TextMeshProUGUI[] { ResourceText1, ResourceText2, ResourceText3, ResourceText4 };
-
-        Utility.SeasonManager.OnSeasonChanged.AddListener(UpdateSeason);
-        Utility.GameManager.OnYearChanged.AddListener(UpdateYear);
-        Player.OnResourceChanged.AddListener(UpdateResource);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        if (resourceText1 == null) resourceText1 = GameObject.Find("Resource1").GetComponentInChildren<TextMeshProUGUI>();
+        if (resourceText2 == null) resourceText2 = GameObject.Find("Resource2").GetComponentInChildren<TextMeshProUGUI>();
+        if (resourceText3 == null) resourceText3 = GameObject.Find("Resource3").GetComponentInChildren<TextMeshProUGUI>();
+        if (resourceText4 == null) resourceText4 = GameObject.Find("Resource4").GetComponentInChildren<TextMeshProUGUI>();
+        _resourceTexts = new[] { resourceText1, resourceText2, resourceText3, resourceText4 };
         
+        Utility.GameManager.OnCountdownChanged.AddListener(CountdownChangedHandler);
+        Utility.GameManager.OnYearChanged.AddListener(YearChangedHandler);
+        Utility.SeasonManager.OnSeasonChanged.AddListener(OnSeasonChangedHandler);
+        Utility.SeasonManager.OnSeasonEventChanged.AddListener(OnSeasonEventChangedHandler);
+        Player.OnResourceChanged.AddListener(ResourceChangedHandler);
     }
 
-    private void UpdateSeason(SeasonType season)
+    private void Start()
     {
-        SeasonText.text = season.ToString();
+
     }
 
-    private void UpdateYear(int year)
+    private void Update()
     {
-        YearText.text = year.ToString();
+
     }
 
-    private void UpdateWeather(SeasonEventType weather)
+    private void CountdownChangedHandler(int? countdownValue)
     {
-        WeatherText.text = weather.ToString();
+        countdownText.text = countdownValue.ToString();
     }
 
-    private void UpdateResource(int playerId, int amount)
+    private void YearChangedHandler(int year)
     {
-        ResourceTexts[playerId].text = amount.ToString();
+        yearText.text = year.ToString();
+    }
+
+    private void OnSeasonChangedHandler(SeasonType season)
+    {
+        seasonText.text = season.ToString();
+    }
+
+    private void OnSeasonEventChangedHandler(SeasonEventType seasonEvent)
+    {
+        seasonEventText.text = null;
+        seasonEventText.text = seasonEvent == SeasonEventType.None ? null : seasonEvent.ToString();
+    }
+
+    private void ResourceChangedHandler(int playerId, int amount)
+    {
+        _resourceTexts[playerId].text = amount.ToString();
     }
 }
