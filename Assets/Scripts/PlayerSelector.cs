@@ -21,6 +21,7 @@ public class PlayerSelector : MonoBehaviour
         gameManager = Utility.GetGameManager();
 
         ScarecrowSelected = gameManager.scarecrows[scarecrowIndex];
+        UpdateSelection();
     }
 
     // Update is called once per frame
