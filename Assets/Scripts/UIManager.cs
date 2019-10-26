@@ -8,15 +8,17 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI YearText;
     [SerializeField] TextMeshProUGUI SeasonText;
+    [SerializeField] TextMeshProUGUI WeatherText;
 
     // Start is called before the first frame update
     void Start()
     {
         if (YearText == null) YearText = GameObject.Find("Year Text").GetComponent<TextMeshProUGUI>();
         if (SeasonText == null) SeasonText = GameObject.Find("Season Text").GetComponent<TextMeshProUGUI>();
+        if (SeasonText == null) WeatherText = GameObject.Find("Weather Text").GetComponent<TextMeshProUGUI>();
 
-        GameManager.OnSeasonChanged.AddListener(UpdateSeason);
-        GameManager.OnYearChanged.AddListener(UpdateYear);
+        Utility.SeasonManager.OnSeasonChanged.AddListener(UpdateSeason);
+        Utility.GameManager.OnYearChanged.AddListener(UpdateYear);
     }
 
     // Update is called once per frame
@@ -33,5 +35,10 @@ public class UIManager : MonoBehaviour
     private void UpdateYear(int year)
     {
         YearText.text = year.ToString();
+    }
+
+    private void UpdateWeather(SeasonEventType weather)
+    {
+        WeatherText.text = weather.ToString();
     }
 }

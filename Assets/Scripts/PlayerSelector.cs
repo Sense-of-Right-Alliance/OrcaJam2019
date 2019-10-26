@@ -18,7 +18,7 @@ public class PlayerSelector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = Utility.GetGameManager();
+        gameManager = Utility.GameManager;
 
         ScarecrowSelected = gameManager.scarecrows[scarecrowIndex];
         UpdateSelection();

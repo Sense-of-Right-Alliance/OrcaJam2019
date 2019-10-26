@@ -7,5 +7,7 @@ public static class Utility
 {
     public static T GetManager<T>() => GameObject.Find("/GameManager").GetComponent<T>();
 
-    public static GameManager GetGameManager() => GetManager<GameManager>();
+    public static GameManager GameManager => GetManager<GameManager>();
+    public static SeasonManager SeasonManager => GetManager<SeasonManager>();
+    public static TimePassageCinematicManager TimePassageCinematicManager => GetManager<TimePassageCinematicManager>();
 }
