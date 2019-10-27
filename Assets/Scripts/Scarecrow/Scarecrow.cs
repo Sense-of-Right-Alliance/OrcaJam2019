@@ -31,11 +31,12 @@ public class Scarecrow : MonoBehaviour
 
     }
 
-    public void DamageRandomPart(int amount)
+    public ScarecrowPart DamageRandomPart(int amount)
     {
         var intactParts = _parts.Where(p => p.Value.State == ScarecrowPartState.Intact);
         var randomPart = _parts.ElementAt(Random.Range(0, intactParts.Count()));
         DamagePart(randomPart.Key, amount);
+        return randomPart.Value;
     }
 
     public void DamageAllParts(int amount)

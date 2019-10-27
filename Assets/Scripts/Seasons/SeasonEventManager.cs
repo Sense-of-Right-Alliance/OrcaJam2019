@@ -16,13 +16,13 @@ public class SeasonEventManager : MonoBehaviour
     [SerializeField] private int tornadoDamageMax = 40;
     [SerializeField] private int meteoriteCountMin = 8;
     [SerializeField] private int meteoriteCountMax = 20;
-    [SerializeField] private int meteoriteDamageMin = 2;
-    [SerializeField] private int meteoriteDamageMax = 5;
+    [SerializeField] private int meteoriteDamageMin = 5;
+    [SerializeField] private int meteoriteDamageMax = 10;
     [SerializeField] private int asteroidDamageMin = 40;
     [SerializeField] private int asteroidDamageMax = 60;
 
-    [SerializeField] GameObject GentleRainParticleEffectPrefab;
-    GameObject gentleRainParticleEffect;
+    [SerializeField] GameObject GentleRainVisualEffectPrefab;
+    [SerializeField] GameObject MeteoriteShowerVisualPrefab;
 
     private ScarecrowManager _scarecrowManager;
 
@@ -65,7 +65,7 @@ public class SeasonEventManager : MonoBehaviour
                 ProcessTornado();
                 break;
             case SeasonEventType.MeteoriteStorm:
-                ProcessMeteoriteStorm();
+                ProcessMeteoriteStorm(seasonEvent.Duration);
                 break;
             case SeasonEventType.AsteroidStrike:
                 ProcessAsteroidStrike();
@@ -88,8 +88,8 @@ public class SeasonEventManager : MonoBehaviour
 
     private void ProcessGentleRain(float duration)
     {
-        gentleRainParticleEffect = (GameObject)Instantiate(GentleRainParticleEffectPrefab);
-        gentleRainParticleEffect.GetComponent<GentleRainVisual>().Init(duration);
+        GameObject gentleRainVisual = (GameObject)Instantiate(GentleRainVisualEffectPrefab);
+        gentleRainVisual.GetComponent<GentleRainVisual>().Init(duration);
 
         foreach (var scarecrow in _scarecrowManager.ScarecrowsLeftToRight)
         {
@@ -161,7 +161,7 @@ public class SeasonEventManager : MonoBehaviour
         }
     }
 
-    private void ProcessMeteoriteStorm()
+    private void ProcessMeteoriteStorm(float duration)
     {
         int meteorites = RandomBetween(meteoriteCountMin, meteoriteCountMax);
         var scarecrows = new List<Scarecrow>
@@ -174,11 +174,18 @@ public class SeasonEventManager : MonoBehaviour
             _scarecrowManager.OuterRightScarecrow,
         };
 
+        ScarecrowPart[] hitParts = new ScarecrowPart[meteorites];
         for (int i = 0; i < meteorites; i++)
         {
             var scarecrow = RandomScarecrow(scarecrows);
-            scarecrow.DamageRandomPart(RandomBetween(meteoriteDamageMin, meteoriteDamageMax));
+            ScarecrowPart part = scarecrow.DamageRandomPart(RandomBetween(meteoriteDamageMin, meteoriteDamageMax));
+            hitParts[i] = part;
         }
+
+        GameObject meteoriteVisual = (GameObject)Instantiate(MeteoriteShowerVisualPrefab);
+        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().numMeteorites = meteorites;
+        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().hitParts = hitParts;
+        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().Init(duration);
     }
 
     private void ProcessAsteroidStrike()

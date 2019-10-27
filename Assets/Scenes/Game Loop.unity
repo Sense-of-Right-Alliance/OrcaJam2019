@@ -2139,7 +2139,9 @@ MonoBehaviour:
   meteoriteDamageMax: 5
   asteroidDamageMin: 40
   asteroidDamageMax: 60
-  GentleRainParticleEffectPrefab: {fileID: 968914121809424912, guid: e80546c1ecc74f54ca5a4237072dcdfa,
+  GentleRainVisualEffectPrefab: {fileID: 968914121809424912, guid: e80546c1ecc74f54ca5a4237072dcdfa,
+    type: 3}
+  MeteoriteShowerVisualPrefab: {fileID: 1691622554138905526, guid: f1d9e3a57d4dd994c943c1c1645f6ee4,
     type: 3}
 --- !u!1 &1529979375
 GameObject:
