@@ -6,7 +6,9 @@ using UnityEngine.Events;
 
 public class SeasonManager : MonoBehaviour
 {
-    public SeasonType currentSeasonType = SeasonType.Fall;
+    [SerializeField] private SeasonType currentSeasonType = SeasonType.Fall;
+    [SerializeField] private int eventsPerSeason = 3;
+    [SerializeField] private float timePassingDuration = 5f;
 
     private readonly Dictionary<SeasonType, Season> _seasons = new Dictionary<SeasonType, Season>
     {
@@ -24,19 +26,13 @@ public class SeasonManager : MonoBehaviour
 
     public SeasonEvent CurrentSeasonEvent => _currentSeasonEventIndex < _currentSeasonEvents.Count() ? _currentSeasonEvents.ElementAt(_currentSeasonEventIndex) : null;
 
-    public int eventsPerSeason = 3;
-
     public class SeasonChangedEvent : UnityEvent<SeasonType> { }
-    public SeasonChangedEvent OnSeasonChanged { get; } = new SeasonChangedEvent();
-
     public class SeasonEventChangedEvent : UnityEvent<SeasonEventType> { }
+
+    public SeasonChangedEvent OnSeasonChanged { get; } = new SeasonChangedEvent();
     public SeasonEventChangedEvent OnSeasonEventChanged { get; } = new SeasonEventChangedEvent();
-
     public UnityEvent OnSeasonEnded { get; } = new UnityEvent();
-
     public UnityEvent OnYearEnded { get; } = new UnityEvent();
-
-    public float timePassingDuration = 5f;
 
     private SeasonEventManager _seasonEventManager;
     private TimePassageCinematicManager _timePassageCinematicManager;
