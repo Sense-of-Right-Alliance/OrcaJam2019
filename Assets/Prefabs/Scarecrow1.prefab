@@ -283,14 +283,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDurability: 100
+  type: 0
   durability: 0
-  PartGraphics:
+  partGraphics:
   - {fileID: 21300000, guid: f388e69c74ac41f44b256f109d450f65, type: 3}
   - {fileID: 21300000, guid: 09c5dbbf493807a4e8c68b85217af3c4, type: 3}
   - {fileID: 21300000, guid: 3bd26c3ae85609b44bf48e34125ccbd5, type: 3}
   spriteRenderer: {fileID: 65546091537841686}
-  type: 0
 --- !u!1 &4225234184866767256
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,14 +333,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDurability: 100
+  type: 2
   durability: 0
-  PartGraphics:
+  partGraphics:
   - {fileID: 21300000, guid: d9cd0f689ed589d4983f5b5221ab210e, type: 3}
   - {fileID: 21300000, guid: 48c68992676bd324aadcd5255f2906f8, type: 3}
   - {fileID: 21300000, guid: 781d93e6491abec46b69ba909fc4b97f, type: 3}
   spriteRenderer: {fileID: 750808820575713757}
-  type: 2
 --- !u!1 &4225234184867508344
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,14 +383,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDurability: 100
+  type: 1
   durability: 0
-  PartGraphics:
+  partGraphics:
   - {fileID: 21300000, guid: d9cd0f689ed589d4983f5b5221ab210e, type: 3}
   - {fileID: 21300000, guid: 48c68992676bd324aadcd5255f2906f8, type: 3}
   - {fileID: 21300000, guid: 781d93e6491abec46b69ba909fc4b97f, type: 3}
   spriteRenderer: {fileID: 3301467393886647497}
-  type: 1
 --- !u!1 &4225234184995541020
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,14 +533,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxDurability: 100
+  type: 3
   durability: 0
-  PartGraphics:
+  partGraphics:
   - {fileID: 21300000, guid: 70179ece200d8724b98face41216e579, type: 3}
   - {fileID: 21300000, guid: 8003a0c9699be964db308b9efc050882, type: 3}
   - {fileID: 21300000, guid: 4d338fc6d4dc114448031f40b1def278, type: 3}
   spriteRenderer: {fileID: 6261504937849277363}
-  type: 3
 --- !u!1 &5382142141587066770
 GameObject:
   m_ObjectHideFlags: 0

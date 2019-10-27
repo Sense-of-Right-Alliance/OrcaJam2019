@@ -70,6 +70,7 @@ public class ScarecrowPart : MonoBehaviour
         {
             spriteRenderer.enabled = true;
             int index = Mathf.FloorToInt(((float)durability / (float)MaxDurability) * partGraphics.Length);
+            Debug.Log("Scarecrow graphic index = " + index);
             spriteRenderer.sprite = partGraphics[index];
         }
     }
