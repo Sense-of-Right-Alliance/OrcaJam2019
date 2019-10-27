@@ -5,20 +5,18 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] int resources = 0;
+    [SerializeField] int id = 0;
+
+    [SerializeField] GameObject selectorPrefab;
+    [SerializeField] GameObject resourceGooberPrefab;
+
     public class ResourceChangedEvent : UnityEvent<int, int> { }
     public static ResourceChangedEvent OnResourceChanged { get; } = new ResourceChangedEvent();
 
-    [SerializeField] GameObject SelectorPrefab;
-    [SerializeField] GameObject ResourceGooberPrefab;
-
-    [SerializeField] int resources = 0;
-    [SerializeField] int ID = 0;
-
-    UIManager uiManager;
-
     public int Resources
     {
-        get { return resources; }
+        get => resources;
         set
         {
             resources = value;
@@ -26,22 +24,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    GameObject selector;
+    private UiManager _uiManager;
+    private GameObject _selector;
 
     private void Awake()
     {
-        selector = (GameObject)Instantiate(SelectorPrefab);
-        selector.GetComponent<PlayerSelector>().Init(this);
+        _selector = Instantiate(selectorPrefab);
+        _selector.GetComponent<PlayerSelector>().Init(this);
+
+        _uiManager = Utility.UiManager;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        uiManager = GameObject.FindObjectOfType<UIManager>();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }
@@ -51,14 +50,14 @@ public class Player : MonoBehaviour
         int repairAmount = 1;
         if (Resources >= repairAmount)
         {
-            scarecrow.RepairPart(part.type, repairAmount);
+            scarecrow.RepairPart(part.Type, repairAmount);
             Resources -= repairAmount;
 
             for (int i = 0; i < repairAmount; i++)
             {
-                GameObject goober = (GameObject)Instantiate(ResourceGooberPrefab);
-                goober.transform.position = uiManager.GetPlayerResourceBoxPosition(ID);
-                Vector2 target = selector.transform.position;//part.transform.TransformPoint(part.transform.position);
+                var goober = Instantiate(resourceGooberPrefab);
+                goober.transform.position = _uiManager.GetPlayerResourceBoxPosition(id);
+                Vector2 target = _selector.transform.position;//part.transform.TransformPoint(part.transform.position);
                 goober.GetComponent<ResourceGoober>().SetTarget(target);
             }
         }

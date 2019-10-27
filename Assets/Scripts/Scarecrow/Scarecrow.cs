@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class Scarecrow : MonoBehaviour
 {
-    public ScarecrowState state = ScarecrowState.Alive;
+    [SerializeField] private ScarecrowState state = ScarecrowState.Alive;
 
-    public ScarecrowPart head;
-    public ScarecrowPart leftArm;
-    public ScarecrowPart rightArm;
-    public ScarecrowPart peg;
+    [SerializeField] private ScarecrowPart head;
+    [SerializeField] private ScarecrowPart leftArm;
+    [SerializeField] private ScarecrowPart rightArm;
+    [SerializeField] private ScarecrowPart peg;
 
     private readonly Dictionary<ScarecrowPartType, ScarecrowPart> _parts = new Dictionary<ScarecrowPartType, ScarecrowPart>();
 
     public bool IsIntact => state != ScarecrowState.Dead;
+
+    public ScarecrowPart[] Parts => new[] { peg, leftArm, rightArm, head };
 
     private void Start()
     {
@@ -22,11 +24,6 @@ public class Scarecrow : MonoBehaviour
         _parts[ScarecrowPartType.LeftArm] = leftArm;
         _parts[ScarecrowPartType.RightArm] = rightArm;
         _parts[ScarecrowPartType.Peg] = peg;
-    }
-
-    public ScarecrowPart[] GetScarecrowPartTransforms()
-    {
-        return new ScarecrowPart[] { peg, leftArm, rightArm, head };//Transform[] { peg.transform, leftArm.transform, rightArm.transform, head.transform};
     }
 
     private void Update()

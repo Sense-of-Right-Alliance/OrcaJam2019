@@ -6,19 +6,18 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private int currentYear = 0;
+    [SerializeField] private int firstYearPlanningTime = 3;
+    [SerializeField] private int seasonEndPlanningTime = 5;
+    [SerializeField] private int yearEndPlanningTime = 7;
+
     public GameState GameState { get; set; } = GameState.GameStarting;
 
     public class YearChangedEvent : UnityEvent<int> { }
-    public YearChangedEvent OnYearChanged { get; } = new YearChangedEvent();
-
     public class CountdownChangedEvent : UnityEvent<int?> { }
+
+    public YearChangedEvent OnYearChanged { get; } = new YearChangedEvent();
     public CountdownChangedEvent OnCountdownChanged { get; } = new CountdownChangedEvent();
-
-    public int currentYear = 0;
-
-    public int firstYearPlanningTime = 3;
-    public int seasonEndPlanningTime = 5;
-    public int yearEndPlanningTime = 7;
 
     private SeasonManager _seasonManager;
 

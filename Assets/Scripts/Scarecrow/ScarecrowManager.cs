@@ -5,14 +5,10 @@ using UnityEngine;
 
 public class ScarecrowManager : MonoBehaviour
 {
-    [SerializeField]
-    private Scarecrow outerLeftScarecrow;
-    [SerializeField]
-    private Scarecrow centreLeftScarecrow;
-    [SerializeField]
-    private Scarecrow centreRightScarecrow;
-    [SerializeField]
-    private Scarecrow outerRightScarecrow;
+    [SerializeField] private Scarecrow outerLeftScarecrow;
+    [SerializeField] private Scarecrow centreLeftScarecrow;
+    [SerializeField] private Scarecrow centreRightScarecrow;
+    [SerializeField] private Scarecrow outerRightScarecrow;
 
     private List<Scarecrow> _scarecrows;
 
