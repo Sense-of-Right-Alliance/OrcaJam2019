@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2083371983350331598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5699997, z: 5}
+  m_LocalPosition: {x: 0, y: -2.5699997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectorPrefab: {fileID: 7596084846774782869, guid: b7c10b3b075584d45bcdb5f04c5f95dc,
+    type: 3}
+  ResourceGooberPrefab: {fileID: 4761236657539572206, guid: 73242dc660bd5944f819feb713932914,
     type: 3}
   resources: 0
   ID: 0

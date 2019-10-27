@@ -19,6 +19,12 @@ public class UIManager : MonoBehaviour
 
     private TextMeshProUGUI[] _resourceTexts;
 
+    public Image resourceImage1;
+    public Image resourceImage2;
+    public Image resourceImage3;
+    public Image resourceImage4;
+    private Image[] _resourceImages;
+
     private void Awake()
     {
         if (countdownText == null) countdownText = GameObject.Find("Countdown Text").GetComponent<TextMeshProUGUI>();
@@ -31,7 +37,13 @@ public class UIManager : MonoBehaviour
         if (resourceText3 == null) resourceText3 = GameObject.Find("Resource3").GetComponentInChildren<TextMeshProUGUI>();
         if (resourceText4 == null) resourceText4 = GameObject.Find("Resource4").GetComponentInChildren<TextMeshProUGUI>();
         _resourceTexts = new[] { resourceText1, resourceText2, resourceText3, resourceText4 };
-        
+
+        if (resourceImage1 == null) resourceImage1 = GameObject.Find("Resource1").GetComponentInChildren<Image>();
+        if (resourceImage2 == null) resourceImage2 = GameObject.Find("Resource2").GetComponentInChildren<Image>();
+        if (resourceImage3 == null) resourceImage3 = GameObject.Find("Resource3").GetComponentInChildren<Image>();
+        if (resourceImage4 == null) resourceImage4 = GameObject.Find("Resource4").GetComponentInChildren<Image>();
+        _resourceImages = new Image[] { resourceImage1, resourceImage2, resourceImage3, resourceImage4 };
+
         Utility.GameManager.OnCountdownChanged.AddListener(CountdownChangedHandler);
         Utility.GameManager.OnYearChanged.AddListener(YearChangedHandler);
         Utility.SeasonManager.OnSeasonChanged.AddListener(SeasonChangedHandler);
@@ -73,5 +85,10 @@ public class UIManager : MonoBehaviour
     private void ResourceChangedHandler(int playerId, int amount)
     {
         _resourceTexts[playerId].text = amount.ToString();
+    }
+
+    public Vector2 GetPlayerResourceBoxPosition(int playerId)
+    {
+        return Camera.main.ScreenToWorldPoint(_resourceImages[playerId].rectTransform.transform.position);
     }
 }
