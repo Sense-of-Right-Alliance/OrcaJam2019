@@ -44,6 +44,8 @@ public class ResourceGoober : MonoBehaviour
             Vector3 newPos = Vector2.Lerp(start, target, i);
             i += rate * Time.deltaTime;
 
+            newPos.z = -5;
+
             transform.position = newPos;
             if (i >= 1) Destroy(gameObject);
         }
