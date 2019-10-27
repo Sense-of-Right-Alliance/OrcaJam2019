@@ -21,6 +21,9 @@ public class SeasonEventManager : MonoBehaviour
     [SerializeField] private int asteroidDamageMin = 40;
     [SerializeField] private int asteroidDamageMax = 60;
 
+    [SerializeField] GameObject GentleRainParticleEffectPrefab;
+    GameObject gentleRainParticleEffect;
+
     private ScarecrowManager _scarecrowManager;
 
     private void Awake()
@@ -50,7 +53,7 @@ public class SeasonEventManager : MonoBehaviour
             case SeasonEventType.None:
                 return;
             case SeasonEventType.GentleRain:
-                ProcessGentleRain();
+                ProcessGentleRain(seasonEvent.Duration);
                 break;
             case SeasonEventType.Thunderstorm:
                 ProcessThunderstorm();
@@ -83,8 +86,11 @@ public class SeasonEventManager : MonoBehaviour
         return scarecrows.ElementAt(index);
     }
 
-    private void ProcessGentleRain()
+    private void ProcessGentleRain(float duration)
     {
+        gentleRainParticleEffect = (GameObject)Instantiate(GentleRainParticleEffectPrefab);
+        gentleRainParticleEffect.GetComponent<GentleRainVisual>().Init(duration);
+
         foreach (var scarecrow in _scarecrowManager.ScarecrowsLeftToRight)
         {
             scarecrow.SetWet();
