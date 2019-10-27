@@ -4,25 +4,21 @@ using UnityEngine;
 
 public class MeteoriteShowerVisual : SeasonVisualEffect
 {
-    [SerializeField] GameObject MeteoritePrefab;
+    [SerializeField] private GameObject meteoritePrefab;
 
-    GameObject[] meteorites;
-
-    public int numMeteorites = 1;
-    public ScarecrowPart[] hitParts;
-
-    public override void Init(float duration)
+    public void Init(float duration, int meteoriteCount, ScarecrowPart[] targets)
     {
         base.Init(duration);
 
-        meteorites = new GameObject[numMeteorites];
+        var meteorites = new GameObject[meteoriteCount];
+        float delay = duration / (1 + meteoriteCount);
 
-        for (int i = 0; i < numMeteorites; i++)
+        for (int i = 0; i < meteoriteCount; i++)
         {
-            meteorites[i] = Instantiate(MeteoritePrefab);
+            meteorites[i] = Instantiate(meteoritePrefab);
             meteorites[i].transform.position = new Vector3(Random.Range(-5,5),6,10);
             //Vector3 target = new Vector3(0, 0, meteorites[i].transform.position.z);
-            meteorites[i].GetComponent<Meteorite>().SetTarget(hitParts[i].transform.position, 0.1f * i);
+            meteorites[i].GetComponent<Meteorite>().SetTarget(targets[i].transform.position, delay * i);
         }
     }
 }

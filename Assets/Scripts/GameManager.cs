@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int seasonEndPlanningTime = 5;
     [SerializeField] private int yearEndPlanningTime = 7;
 
-    public GameState GameState { get; set; } = GameState.GameStarting;
+    public GameState GameState { get; set; } = GameState.WaitingForPlayers;
 
     public class YearChangedEvent : UnityEvent<int> { }
     public class CountdownChangedEvent : UnityEvent<int?> { }
@@ -19,10 +19,12 @@ public class GameManager : MonoBehaviour
     public YearChangedEvent OnYearChanged { get; } = new YearChangedEvent();
     public CountdownChangedEvent OnCountdownChanged { get; } = new CountdownChangedEvent();
 
+    private PlayerManager _playerManager;
     private SeasonManager _seasonManager;
 
     private void Awake()
     {
+        _playerManager = GetComponent<PlayerManager>();
         _seasonManager = GetComponent<SeasonManager>();
 
         _seasonManager.OnSeasonEnded.AddListener(SeasonEndedHandler);
@@ -31,14 +33,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        OnYearChanged.Invoke(currentYear);
 
-        StartCoroutine(CountdownToFirstYear());
     }
 
     private void Update()
     {
+        if (GameState == GameState.WaitingForPlayers && _playerManager.Players.Any())
+        {
+            GameState = GameState.GameStarting;
 
+            StartCoroutine(CountdownToFirstYear());
+        }
     }
 
     private void SeasonEndedHandler()
@@ -59,6 +64,10 @@ public class GameManager : MonoBehaviour
         yield return Countdown(firstYearPlanningTime);
 
         GameState = GameState.SeasonElapsing;
+
+        currentYear++;
+        OnYearChanged.Invoke(currentYear);
+
         _seasonManager.BeginYear();
     }
 

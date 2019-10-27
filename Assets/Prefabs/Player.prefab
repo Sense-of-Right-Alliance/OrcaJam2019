@@ -43,9 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4ca163304e1f5458720762d9d80fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectorPrefab: {fileID: 7596084846774782869, guid: b7c10b3b075584d45bcdb5f04c5f95dc,
-    type: 3}
-  ResourceGooberPrefab: {fileID: 4761236657539572206, guid: 73242dc660bd5944f819feb713932914,
-    type: 3}
+  id: 0
   resources: 0
-  ID: 0
+  selectorPrefab: {fileID: 7596084846774782869, guid: b7c10b3b075584d45bcdb5f04c5f95dc,
+    type: 3}
+  resourceGooberPrefab: {fileID: 4761236657539572206, guid: 73242dc660bd5944f819feb713932914,
+    type: 3}

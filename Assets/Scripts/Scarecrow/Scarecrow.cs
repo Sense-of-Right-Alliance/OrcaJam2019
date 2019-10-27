@@ -12,6 +12,8 @@ public class Scarecrow : MonoBehaviour
     [SerializeField] private ScarecrowPart rightArm;
     [SerializeField] private ScarecrowPart peg;
 
+    public Player Player { get; set; }
+
     private readonly Dictionary<ScarecrowPartType, ScarecrowPart> _parts = new Dictionary<ScarecrowPartType, ScarecrowPart>();
 
     public bool IsIntact => state != ScarecrowState.Dead;

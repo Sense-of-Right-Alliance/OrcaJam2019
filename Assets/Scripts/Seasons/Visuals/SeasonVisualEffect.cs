@@ -4,29 +4,26 @@ using UnityEngine;
 
 public class SeasonVisualEffect : MonoBehaviour
 {
-    bool initialized = false;
-    float timer = -1f;
+    private bool _initialized;
+    private float _timer = -1f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         
     }
 
     public virtual void Init(float duration)
     {
-        timer = duration;
-        initialized = true;
-
+        _timer = duration;
+        _initialized = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (initialized)
+        if (_initialized)
         {
-            timer -= Time.deltaTime;
-            if (timer <= 0f)
+            _timer -= Time.deltaTime;
+            if (_timer <= 0f)
             {
                 Destroy(gameObject);
             }
