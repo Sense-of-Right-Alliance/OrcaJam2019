@@ -9,5 +9,7 @@ public static class Utility
 
     public static GameManager GameManager => GetManager<GameManager>();
     public static SeasonManager SeasonManager => GetManager<SeasonManager>();
+    public static SeasonEventManager SeasonEventManager => GetManager<SeasonEventManager>();
+    public static ScarecrowManager ScarecrowManager => GetManager<ScarecrowManager>();
     public static TimePassageCinematicManager TimePassageCinematicManager => GetManager<TimePassageCinematicManager>();
 }
