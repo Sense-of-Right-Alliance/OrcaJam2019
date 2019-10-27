@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerSelector : MonoBehaviour
 {
     [SerializeField] int inputIndex = 1;
-    [SerializeField] int scarecrowIndex = 0;
     [SerializeField] int partIndex = 0;
 
     private Transform _partSelected;
@@ -14,16 +13,14 @@ public class PlayerSelector : MonoBehaviour
 
     private bool _inputReset = true; // have to set dir/pad back to 0 before moving again. This is weird and I'm sorry.
 
-    private GameManager _gameManager;
     private ScarecrowManager _scarecrowManager;
     private Player _player;
 
     private void Start()
     {
-        _gameManager = Utility.GameManager;
         _scarecrowManager = Utility.ScarecrowManager;
 
-        _scarecrowSelected = _scarecrowManager.ScarecrowsLeftToRight.ElementAt(scarecrowIndex);
+        _scarecrowSelected = _scarecrowManager.ScarecrowsLeftToRight.First();
         UpdateSelection();
     }
 
@@ -37,7 +34,7 @@ public class PlayerSelector : MonoBehaviour
         if (Mathf.Abs(horizontal) > 0)
         {
             //Debug.Log("Player " + InputIndex.ToString() + " Moved horizontal! " + horizontal.ToString());
-            if (_inputReset) ChangeScarecrow(horizontal);
+            if (_inputReset) SelectNextScarecrow(horizontal > 0);
             _inputReset = false;
             madeInput = true;
         }
@@ -70,11 +67,32 @@ public class PlayerSelector : MonoBehaviour
         _player.RepairPart(_scarecrowSelected, _scarecrowSelected.Parts[partIndex]);
     }
 
-    private void ChangeScarecrow(float horizontal)
+    private void SelectNextScarecrow(bool forward)
     {
-        var scarecrows = _scarecrowManager.ScarecrowsLeftToRight.ToArray();
-        scarecrowIndex = horizontal > 0 ? (scarecrowIndex + 1) % scarecrows.Length : scarecrowIndex == 0 ? scarecrows.Length - 1 : scarecrowIndex - 1;
-        _scarecrowSelected = scarecrows[scarecrowIndex];
+        // create queue, ordered depending on whether we are searching forward or backward
+        var scarecrows = new Queue<Scarecrow>(forward ? _scarecrowManager.ScarecrowsLeftToRight : _scarecrowManager.ScarecrowsRightToLeft);
+
+        // rotate queue so the current scarecrow is last
+        if (scarecrows.Contains(_scarecrowSelected))
+        {
+            var scarecrow = scarecrows.Dequeue();
+            while (scarecrow != _scarecrowSelected)
+            {
+                scarecrows.Enqueue(scarecrow);
+                scarecrow = scarecrows.Dequeue();
+            }
+            scarecrows.Enqueue(scarecrow);
+        }
+
+        // select the next scarecrow
+        _scarecrowSelected = scarecrows.Dequeue();
+
+        // if this scarecrow is not intact, keep looking
+        while (!_scarecrowSelected.IsIntact && scarecrows.Any())
+        {
+            _scarecrowSelected = scarecrows.Dequeue();
+        }
+
         UpdateSelection();
     }
 

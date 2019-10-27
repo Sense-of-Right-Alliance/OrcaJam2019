@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     public void RepairPart(Scarecrow scarecrow, ScarecrowPart part)
     {
         int repairAmount = 1;
-        if (Resources >= repairAmount)
+        if (Resources >= repairAmount && part.State == ScarecrowPartState.Intact)
         {
             scarecrow.RepairPart(part.Type, repairAmount);
             Resources -= repairAmount;
