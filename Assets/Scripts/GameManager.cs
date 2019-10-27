@@ -77,7 +77,9 @@ public class GameManager : MonoBehaviour
 
         yield return Countdown(seasonEndPlanningTime);
 
-        // TODO: spiderfriends should repair parts
+        _playerManager.PlaySpiderSwarms(); // spiderfriends should repair parts
+
+        yield return new WaitForSeconds(1.5f);
 
         GameState = GameState.SeasonElapsing;
         _seasonManager.BeginNextSeason();

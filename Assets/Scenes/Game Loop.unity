@@ -1376,7 +1376,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000038147, y: -202}
+  m_AnchoredPosition: {x: -2.3, y: -279}
   m_SizeDelta: {x: 490.6, y: 114.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1169782939
@@ -1425,13 +1425,13 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 71.8
-  m_fontSizeBase: 71.8
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2146,6 +2146,8 @@ MonoBehaviour:
     type: 3}
   meteoriteShowerVisualPrefab: {fileID: 1691622554138905526, guid: f1d9e3a57d4dd994c943c1c1645f6ee4,
     type: 3}
+  asteroidStrikeVisualPrefab: {fileID: 1472114431609271700, guid: b125860497bb1474e92c6eeb52239678,
+    type: 3}
 --- !u!114 &1495734096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2159,6 +2161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 2083371983350331598, guid: 23087328ba486a14ebbe6943fb1cbdeb,
+    type: 3}
+  SpiderSwarmVisualPrefab: {fileID: 8185686356544607689, guid: 77d90504c2a3822478c4be3d9730a703,
     type: 3}
 --- !u!1 &1529979375
 GameObject:

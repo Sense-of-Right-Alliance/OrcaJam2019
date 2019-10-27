@@ -65,6 +65,15 @@ public class SeasonManager : MonoBehaviour
     {
         Debug.Log("Your forecast for " + CurrentSeason.Type + ": " + string.Join(", ", _currentSeasonEvents.Select(e => e.Type)));
 
+        float duration = 0f;
+        for (int i = 0; i < _currentSeasonEvents.Count; i++)
+        {
+            var seasonEvent = _currentSeasonEvents.ElementAt(i);
+            duration += seasonEvent.Duration;
+        }
+        Debug.Log("duration for time pass = " + duration);
+        _timePassageCinematicManager.PassTime(duration);
+
         for (int i = 0; i < _currentSeasonEvents.Count; i++)
         {
             var seasonEvent = _currentSeasonEvents.ElementAt(i);
@@ -110,8 +119,6 @@ public class SeasonManager : MonoBehaviour
 
     private void ChangeSeason()
     {
-        //_timePassageCinematicManager.PassTime(timePassingDuration);
-
         currentSeasonType = currentSeasonType.NextSeasonType();
         OnSeasonChanged.Invoke(currentSeasonType);
     }
