@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c3927f1400699641baa86e9e7faef5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeteoritePrefab: {fileID: 4819787553343855778, guid: f3cb442edf5e6b94d82552f2cba6bd69,
+  meteoritePrefab: {fileID: 4819787553343855778, guid: f3cb442edf5e6b94d82552f2cba6bd69,
     type: 3}
-  numMeteorites: 1
 --- !u!212 &1691622554138905527
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -78,7 +78,6 @@ public class UiManager : MonoBehaviour
 
     private void SeasonEventChangedHandler(SeasonEventType seasonEvent)
     {
-        seasonEventText.text = null;
         seasonEventText.text = seasonEvent == SeasonEventType.None ? null : seasonEvent.ToString();
     }
 
