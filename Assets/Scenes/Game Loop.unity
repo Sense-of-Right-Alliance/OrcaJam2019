@@ -2136,6 +2136,12 @@ MonoBehaviour:
   meteoriteDamageMax: 5
   asteroidDamageMin: 40
   asteroidDamageMax: 60
+  gentleRainResources: 2
+  lightningStrikeRefundRate: 0.1
+  blizzardRefundRate: 0
+  tornadoRefundRate: 0.1
+  meteoriteRefundRate: 0.2
+  asteroidRefundRate: 0.1
   gentleRainVisualEffectPrefab: {fileID: 968914121809424912, guid: e80546c1ecc74f54ca5a4237072dcdfa,
     type: 3}
   meteoriteShowerVisualPrefab: {fileID: 1691622554138905526, guid: f1d9e3a57d4dd994c943c1c1645f6ee4,

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,11 +31,13 @@ public class SeasonManager : MonoBehaviour
     public UnityEvent OnSeasonEnded { get; } = new UnityEvent();
     public UnityEvent OnYearEnded { get; } = new UnityEvent();
 
+    private ScarecrowManager _scarecrowManager;
     private SeasonEventManager _seasonEventManager;
     private TimePassageCinematicManager _timePassageCinematicManager;
 
     private void Start()
     {
+        _scarecrowManager = Utility.ScarecrowManager;
         _seasonEventManager = Utility.SeasonEventManager;
         _timePassageCinematicManager = Utility.TimePassageCinematicManager;
     }
@@ -74,6 +77,8 @@ public class SeasonManager : MonoBehaviour
 
         OnSeasonEventChanged.Invoke(SeasonEventType.None);
 
+        _scarecrowManager.AssignResourcesToAllPlayers(GetResourcesForSeason());
+
         if (CurrentSeason.Type == SeasonType.Summer)
         {
             OnYearEnded.Invoke();
@@ -84,6 +89,23 @@ public class SeasonManager : MonoBehaviour
         }
 
         ChangeSeason();
+    }
+
+    private int GetResourcesForSeason()
+    {
+        switch (CurrentSeason.Type)
+        {
+            case SeasonType.Fall:
+                return 15;
+            case SeasonType.Winter:
+                return 5;
+            case SeasonType.Spring:
+                return 15;
+            case SeasonType.Summer:
+                return 10;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void ChangeSeason()

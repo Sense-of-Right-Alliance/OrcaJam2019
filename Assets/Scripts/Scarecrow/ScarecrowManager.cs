@@ -57,4 +57,12 @@ public class ScarecrowManager : MonoBehaviour
             scarecrow.Player = player != null ? player : defaultPlayer;
         }
     }
+
+    public void AssignResourcesToAllPlayers(int resources)
+    {
+        foreach (var scarecrow in _scarecrows)
+        {
+            scarecrow.Player.Resources += resources;
+        }
+    }
 }

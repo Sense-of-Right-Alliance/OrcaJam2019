@@ -21,6 +21,13 @@ public class SeasonEventManager : MonoBehaviour
     [SerializeField] private int asteroidDamageMin = 40;
     [SerializeField] private int asteroidDamageMax = 60;
 
+    [SerializeField] private int gentleRainResources = 2;
+    [SerializeField] private float lightningStrikeRefundRate = 0.1f;
+    [SerializeField] private float blizzardRefundRate = 0f;
+    [SerializeField] private float tornadoRefundRate = 0.1f;
+    [SerializeField] private float meteoriteRefundRate = 0.2f;
+    [SerializeField] private float asteroidRefundRate = 0.1f;
+
     [SerializeField] GameObject gentleRainVisualEffectPrefab;
     [SerializeField] GameObject meteoriteShowerVisualPrefab;
 
@@ -95,6 +102,8 @@ public class SeasonEventManager : MonoBehaviour
         {
             scarecrow.SetWet();
         }
+
+        _scarecrowManager.AssignResourcesToAllPlayers(gentleRainResources);
     }
 
     private void ProcessThunderstorm()
@@ -117,6 +126,8 @@ public class SeasonEventManager : MonoBehaviour
             {
                 scarecrow.SetAflame();
             }
+
+            scarecrow.Player.Resources += (int)(damage * lightningStrikeRefundRate);
         }
     }
 
@@ -129,6 +140,7 @@ public class SeasonEventManager : MonoBehaviour
         foreach (var scarecrow in scarecrows)
         {
             scarecrow.DamageAllParts(damage);
+            _scarecrowManager.AssignResourcesToAllPlayers((int)(damage * blizzardRefundRate));
         }
     }
 
@@ -158,6 +170,8 @@ public class SeasonEventManager : MonoBehaviour
         {
             scarecrow.DamageRandomPart(RandomBetween(tornadoDamageMin, tornadoDamageMax));
             scarecrow.DamageRandomPart(RandomBetween(tornadoDamageMin, tornadoDamageMax));
+
+            scarecrow.Player.Resources += (int)(RandomBetween(tornadoDamageMin, tornadoDamageMax) * tornadoRefundRate);
         }
     }
 
@@ -178,7 +192,11 @@ public class SeasonEventManager : MonoBehaviour
         for (int i = 0; i < meteorites; i++)
         {
             var scarecrow = RandomScarecrow(scarecrows);
-            var part = scarecrow.DamageRandomPart(RandomBetween(meteoriteDamageMin, meteoriteDamageMax));
+
+            var damage = RandomBetween(meteoriteDamageMin, meteoriteDamageMax);
+            var part = scarecrow.DamageRandomPart(damage);
+            scarecrow.Player.Resources += (int)(damage * meteoriteRefundRate);
+
             targets[i] = part;
         }
 
@@ -194,11 +212,13 @@ public class SeasonEventManager : MonoBehaviour
         foreach (var scarecrow in _scarecrowManager.CentreScarecrows)
         {
             scarecrow.DamageAllParts(fullDamage);
+            scarecrow.Player.Resources += (int)(fullDamage * asteroidRefundRate);
         }
 
-        foreach (var scarecrow in _scarecrowManager.CentreScarecrows)
+        foreach (var scarecrow in _scarecrowManager.OuterScarecrows)
         {
             scarecrow.DamageAllParts(halfDamage);
+            scarecrow.Player.Resources += (int)(halfDamage * asteroidRefundRate);
         }
     }
 }
