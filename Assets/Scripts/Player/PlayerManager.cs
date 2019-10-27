@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
+    [SerializeField] GameObject SpiderSwarmVisualPrefab;
 
     private readonly Player[] _players = new Player[4];
 
@@ -71,5 +72,17 @@ public class PlayerManager : MonoBehaviour
 
         _uiManager.ShowResource(id);
         _scarecrowManager.ReassignPlayersToScarecrows(_players);
+    }
+
+    public void PlaySpiderSwarms()
+    {
+        List<Scarecrow> scarecrows = _scarecrowManager.ScarecrowsLeftToRight.ToList();
+        for (int i = 0; i < Players.Count; i++)
+        {
+            GameObject spiders = Instantiate(SpiderSwarmVisualPrefab);
+
+            spiders.transform.position = new Vector3(scarecrows[i].transform.position.x, scarecrows[i].transform.position.y -5, 10);
+            spiders.GetComponent<SpiderSwarmVisual>().SetTarget(new Vector3(scarecrows[i].transform.position.x, scarecrows[i].transform.position.y, 10));
+        }
     }
 }

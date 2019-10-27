@@ -30,6 +30,7 @@ public class SeasonEventManager : MonoBehaviour
 
     [SerializeField] GameObject gentleRainVisualEffectPrefab;
     [SerializeField] GameObject meteoriteShowerVisualPrefab;
+    [SerializeField] GameObject asteroidStrikeVisualPrefab;
 
     private ScarecrowManager _scarecrowManager;
 
@@ -63,19 +64,19 @@ public class SeasonEventManager : MonoBehaviour
                 ProcessGentleRain(seasonEvent.Duration);
                 break;
             case SeasonEventType.Thunderstorm:
-                ProcessThunderstorm();
+                ProcessThunderstorm(seasonEvent.Duration);
                 break;
             case SeasonEventType.Blizzard:
-                ProcessBlizzard();
+                ProcessBlizzard(seasonEvent.Duration);
                 break;
             case SeasonEventType.Tornado:
-                ProcessTornado();
+                ProcessTornado(seasonEvent.Duration);
                 break;
             case SeasonEventType.MeteoriteStorm:
                 ProcessMeteoriteStorm(seasonEvent.Duration);
                 break;
             case SeasonEventType.AsteroidStrike:
-                ProcessAsteroidStrike();
+                ProcessAsteroidStrike(seasonEvent.Duration);
                 break;
             default:
                 throw new System.ArgumentOutOfRangeException();
@@ -106,7 +107,7 @@ public class SeasonEventManager : MonoBehaviour
         _scarecrowManager.AssignResourcesToAllPlayers(gentleRainResources);
     }
 
-    private void ProcessThunderstorm()
+    private void ProcessThunderstorm(float duration)
     {
         var intactScarecrows = _scarecrowManager.ScarecrowsLeftToRight.Where(s => s.IsIntact).ToList();
 
@@ -131,7 +132,7 @@ public class SeasonEventManager : MonoBehaviour
         }
     }
 
-    private void ProcessBlizzard()
+    private void ProcessBlizzard(float duration)
     {
         bool leftToRight = Random.Range(0f, 1f) < 0.5f;
         var scarecrows = leftToRight ? _scarecrowManager.ScarecrowsLeftToRight : _scarecrowManager.ScarecrowsRightToLeft;
@@ -144,7 +145,7 @@ public class SeasonEventManager : MonoBehaviour
         }
     }
 
-    private void ProcessTornado()
+    private void ProcessTornado(float duration)
     {
         TornadoDirection direction;
         IEnumerable<Scarecrow> scarecrows;
@@ -204,7 +205,7 @@ public class SeasonEventManager : MonoBehaviour
         meteoriteVisual.GetComponent<MeteoriteShowerVisual>().Init(duration, meteorites, targets);
     }
 
-    private void ProcessAsteroidStrike()
+    private void ProcessAsteroidStrike(float duration)
     {
         int fullDamage = RandomBetween(asteroidDamageMin, asteroidDamageMax);
         int halfDamage = fullDamage / 2;
@@ -220,5 +221,8 @@ public class SeasonEventManager : MonoBehaviour
             scarecrow.DamageAllParts(halfDamage);
             scarecrow.Player.Resources += (int)(halfDamage * asteroidRefundRate);
         }
+
+        var asteroidVisual = Instantiate(asteroidStrikeVisualPrefab);
+        asteroidVisual.GetComponent<AsteroidStrikeVisual>().Init(duration);
     }
 }
