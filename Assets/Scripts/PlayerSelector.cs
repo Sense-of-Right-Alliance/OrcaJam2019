@@ -71,19 +71,14 @@ public class PlayerSelector : MonoBehaviour
 
     private void RepairScarecrow()
     {
-        int repairAmount = 1;
-        if (player.Resources >= repairAmount)
-        {
-            ScarecrowPart[] parts = ScarecrowSelected.GetScarecrowPartTransforms();
-            ScarecrowSelected.RepairPart(parts[partIndex].type, repairAmount);
-            player.Resources -= repairAmount;
-        }
+        ScarecrowPart[] parts = ScarecrowSelected.GetScarecrowPartTransforms();
+        player.RepairPart(ScarecrowSelected, parts[partIndex]);
     }
 
     private void ChangeScarecrow(float horizontal)
     {
         Scarecrow[] scarecrows = gameManager.scarecrows;
-        scarecrowIndex = horizontal > 0 ? (scarecrowIndex + 1) % scarecrows.Length : scarecrowIndex == 0 ? scarecrows.Length : scarecrowIndex - 1;
+        scarecrowIndex = horizontal > 0 ? (scarecrowIndex + 1) % scarecrows.Length : scarecrowIndex == 0 ? scarecrows.Length-1 : scarecrowIndex - 1;
         ScarecrowSelected = scarecrows[scarecrowIndex];
         UpdateSelection();
     }
@@ -91,7 +86,7 @@ public class PlayerSelector : MonoBehaviour
     private void ChangeBodyPart(float vertical)
     {
         ScarecrowPart[] parts = ScarecrowSelected.GetScarecrowPartTransforms();
-        partIndex = vertical < 0 ? (partIndex + 1) % parts.Length : partIndex == 0 ? parts.Length : partIndex - 1;
+        partIndex = vertical < 0 ? (partIndex + 1) % parts.Length : partIndex == 0 ? parts.Length-1 : partIndex - 1;
         UpdateSelection();
     }
 

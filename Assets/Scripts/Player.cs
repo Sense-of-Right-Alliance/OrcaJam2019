@@ -9,9 +9,12 @@ public class Player : MonoBehaviour
     public static ResourceChangedEvent OnResourceChanged { get; } = new ResourceChangedEvent();
 
     [SerializeField] GameObject SelectorPrefab;
+    [SerializeField] GameObject ResourceGooberPrefab;
 
     [SerializeField] int resources = 0;
     [SerializeField] int ID = 0;
+
+    UIManager uiManager;
 
     public int Resources
     {
@@ -34,12 +37,30 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        uiManager = GameObject.FindObjectOfType<UIManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void RepairPart(Scarecrow scarecrow, ScarecrowPart part)
+    {
+        int repairAmount = 1;
+        if (Resources >= repairAmount)
+        {
+            scarecrow.RepairPart(part.type, repairAmount);
+            Resources -= repairAmount;
+
+            for (int i = 0; i < repairAmount; i++)
+            {
+                GameObject goober = (GameObject)Instantiate(ResourceGooberPrefab);
+                goober.transform.position = uiManager.GetPlayerResourceBoxPosition(ID);
+                Vector2 target = selector.transform.position;//part.transform.TransformPoint(part.transform.position);
+                goober.GetComponent<ResourceGoober>().SetTarget(target);
+            }
+        }
     }
 }
