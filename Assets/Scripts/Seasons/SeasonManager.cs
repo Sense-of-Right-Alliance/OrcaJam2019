@@ -20,11 +20,7 @@ public class SeasonManager : MonoBehaviour
 
     public Season CurrentSeason => _seasons[currentSeasonType];
 
-    private IEnumerable<SeasonEvent> _currentSeasonEvents = new List<SeasonEvent>();
-
-    private int _currentSeasonEventIndex = 0;
-
-    public SeasonEvent CurrentSeasonEvent => _currentSeasonEventIndex < _currentSeasonEvents.Count() ? _currentSeasonEvents.ElementAt(_currentSeasonEventIndex) : null;
+    private IList<SeasonEvent> _currentSeasonEvents = new List<SeasonEvent>();
 
     public class SeasonChangedEvent : UnityEvent<SeasonType> { }
     public class SeasonEventChangedEvent : UnityEvent<SeasonEventType> { }
@@ -62,16 +58,32 @@ public class SeasonManager : MonoBehaviour
         StartCoroutine(ProcessSeasonEvents());
     }
 
-    IEnumerator ProcessSeasonEvents()
+    private IEnumerator ProcessSeasonEvents()
     {
-        OnSeasonEventChanged.Invoke(CurrentSeasonEvent.Type);
+        Debug.Log("Your forecast for " + CurrentSeason.Type + ": " + string.Join(", ", _currentSeasonEvents.Select(e => e.Type)));
 
-        foreach (var seasonEvent in _currentSeasonEvents)
+        for (int i = 0; i < _currentSeasonEvents.Count; i++)
         {
+            var seasonEvent = _currentSeasonEvents.ElementAt(i);
+            OnSeasonEventChanged.Invoke(seasonEvent.Type);
             _seasonEventManager.ProcessSeasonEvent(seasonEvent);
             yield return new WaitForSeconds(seasonEvent.Duration);
-            FinishSeasonEvent();
         }
+
+        ClearSeasonEvents();
+
+        OnSeasonEventChanged.Invoke(SeasonEventType.None);
+
+        if (CurrentSeason.Type == SeasonType.Summer)
+        {
+            OnYearEnded.Invoke();
+        }
+        else
+        {
+            OnSeasonEnded.Invoke();
+        }
+
+        ChangeSeason();
     }
 
     private void ChangeSeason()
@@ -82,41 +94,13 @@ public class SeasonManager : MonoBehaviour
         OnSeasonChanged.Invoke(currentSeasonType);
     }
 
-    private void FinishSeasonEvent()
-    {
-        _currentSeasonEventIndex += 1;
-        if (_currentSeasonEventIndex < _currentSeasonEvents.Count())
-        {
-            OnSeasonEventChanged.Invoke(CurrentSeasonEvent.Type);
-        }
-        else
-        {
-            ClearSeasonEvents();
-
-            OnSeasonEventChanged.Invoke(SeasonEventType.None);
-
-            if (CurrentSeason.Type == SeasonType.Summer)
-            {
-                OnYearEnded.Invoke();
-            }
-            else
-            {
-                OnSeasonEnded.Invoke();
-            }
-
-            ChangeSeason();
-        }
-    }
-
     private void ClearSeasonEvents()
     {
         _currentSeasonEvents = new List<SeasonEvent>();
-        _currentSeasonEventIndex = 0;
     }
 
     private void GetEventsForSeason()
     {
-        _currentSeasonEvents = CurrentSeason.SelectRandomizedEvents(eventsPerSeason);
-        _currentSeasonEventIndex = 0;
+        _currentSeasonEvents = CurrentSeason.SelectRandomizedEvents(eventsPerSeason).ToList();
     }
 }
