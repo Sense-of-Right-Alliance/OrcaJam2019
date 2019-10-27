@@ -284,6 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxDurability: 100
+  durability: 0
   PartGraphics:
   - {fileID: 21300000, guid: f388e69c74ac41f44b256f109d450f65, type: 3}
   - {fileID: 21300000, guid: 09c5dbbf493807a4e8c68b85217af3c4, type: 3}
@@ -334,6 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxDurability: 100
+  durability: 0
   PartGraphics:
   - {fileID: 21300000, guid: d9cd0f689ed589d4983f5b5221ab210e, type: 3}
   - {fileID: 21300000, guid: 48c68992676bd324aadcd5255f2906f8, type: 3}
@@ -384,6 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxDurability: 100
+  durability: 0
   PartGraphics:
   - {fileID: 21300000, guid: d9cd0f689ed589d4983f5b5221ab210e, type: 3}
   - {fileID: 21300000, guid: 48c68992676bd324aadcd5255f2906f8, type: 3}
@@ -515,7 +518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4225234185189954950}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.43, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7153158669771955968}
@@ -534,6 +537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxDurability: 100
+  durability: 0
   PartGraphics:
   - {fileID: 21300000, guid: 70179ece200d8724b98face41216e579, type: 3}
   - {fileID: 21300000, guid: 8003a0c9699be964db308b9efc050882, type: 3}
