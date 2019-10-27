@@ -4,57 +4,63 @@ using UnityEngine;
 
 public class Meteorite : MonoBehaviour
 {
-    [SerializeField] float speed = 1f;
-    Vector2 target;
-    Vector2 start;
+    [SerializeField] private float speed = 1f;
 
-    float i;
-    float rate = 1f;
+    private bool _initialized;
 
-    float rotateDir = 1f;
+    private Vector2 _target;
+    private Vector2 _start;
 
-    float delay = 0f;
+    private float _progress;
+    private float _rate = 1f;
 
-    public void SetTarget(Vector2 target, float delay=0f)
+    private float _rotateDir = 1f;
+
+    private float _delay = 0f;
+
+    public void SetTarget(Vector2 target, float delay = 0f)
     {
-        this.target = target;
-        start = transform.position;
+        _target = target;
+        _start = transform.position;
 
-        this.delay = delay;
+        _delay = delay;
 
-        i = 0;
+        _progress = 0;
 
-        rotateDir = Random.value > 0.5f ? 1f : -1f;
+        _rotateDir = Random.value > 0.5f ? 1f : -1f;
 
-        float distance = Mathf.Abs((target - start).magnitude);
+        float distance = Mathf.Abs((target - _start).magnitude);
 
-        rate = speed / distance;
+        _rate = speed / distance;
+
+        _initialized = true;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (delay > 0)
+        if (_delay > 0)
         {
-            delay -= Time.deltaTime;
+            _delay -= Time.deltaTime;
         }
-        else if (target != null)
+        else if (_initialized)
         {
             //transform.Rotate(Vector3.forward * 1000f * rotateDir * Time.deltaTime);
 
-            Vector3 newPos = Vector2.Lerp(start, target, i);
-            i += rate * Time.deltaTime;
+            Vector3 newPos = Vector2.Lerp(_start, _target, _progress);
+            _progress += _rate * Time.deltaTime;
 
             newPos.z = -5;
 
             transform.position = newPos;
-            if (i >= 1) Destroy(gameObject);
+            if (_progress >= 1)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

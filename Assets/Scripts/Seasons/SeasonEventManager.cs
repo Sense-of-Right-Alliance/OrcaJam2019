@@ -21,8 +21,8 @@ public class SeasonEventManager : MonoBehaviour
     [SerializeField] private int asteroidDamageMin = 40;
     [SerializeField] private int asteroidDamageMax = 60;
 
-    [SerializeField] GameObject GentleRainVisualEffectPrefab;
-    [SerializeField] GameObject MeteoriteShowerVisualPrefab;
+    [SerializeField] GameObject gentleRainVisualEffectPrefab;
+    [SerializeField] GameObject meteoriteShowerVisualPrefab;
 
     private ScarecrowManager _scarecrowManager;
 
@@ -88,7 +88,7 @@ public class SeasonEventManager : MonoBehaviour
 
     private void ProcessGentleRain(float duration)
     {
-        GameObject gentleRainVisual = (GameObject)Instantiate(GentleRainVisualEffectPrefab);
+        var gentleRainVisual = Instantiate(gentleRainVisualEffectPrefab);
         gentleRainVisual.GetComponent<GentleRainVisual>().Init(duration);
 
         foreach (var scarecrow in _scarecrowManager.ScarecrowsLeftToRight)
@@ -174,18 +174,16 @@ public class SeasonEventManager : MonoBehaviour
             _scarecrowManager.OuterRightScarecrow,
         };
 
-        ScarecrowPart[] hitParts = new ScarecrowPart[meteorites];
+        var targets = new ScarecrowPart[meteorites];
         for (int i = 0; i < meteorites; i++)
         {
             var scarecrow = RandomScarecrow(scarecrows);
-            ScarecrowPart part = scarecrow.DamageRandomPart(RandomBetween(meteoriteDamageMin, meteoriteDamageMax));
-            hitParts[i] = part;
+            var part = scarecrow.DamageRandomPart(RandomBetween(meteoriteDamageMin, meteoriteDamageMax));
+            targets[i] = part;
         }
 
-        GameObject meteoriteVisual = (GameObject)Instantiate(MeteoriteShowerVisualPrefab);
-        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().numMeteorites = meteorites;
-        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().hitParts = hitParts;
-        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().Init(duration);
+        var meteoriteVisual = Instantiate(meteoriteShowerVisualPrefab);
+        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().Init(duration, meteorites, targets);
     }
 
     private void ProcessAsteroidStrike()
