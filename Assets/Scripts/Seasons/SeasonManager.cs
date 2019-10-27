@@ -38,10 +38,12 @@ public class SeasonManager : MonoBehaviour
 
     public float timePassingDuration = 5f;
 
+    private SeasonEventManager _seasonEventManager;
     private TimePassageCinematicManager _timePassageCinematicManager;
 
     private void Start()
     {
+        _seasonEventManager = Utility.SeasonEventManager;
         _timePassageCinematicManager = Utility.TimePassageCinematicManager;
     }
 
@@ -70,7 +72,7 @@ public class SeasonManager : MonoBehaviour
 
         foreach (var seasonEvent in _currentSeasonEvents)
         {
-            // TODO: process season event (display animations, damage scarecrows, collect resources, etc.)
+            _seasonEventManager.ProcessSeasonEvent(seasonEvent);
             yield return new WaitForSeconds(seasonEvent.Duration);
             FinishSeasonEvent();
         }

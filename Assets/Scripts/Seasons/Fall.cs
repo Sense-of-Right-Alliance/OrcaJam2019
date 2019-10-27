@@ -8,9 +8,10 @@ public class Fall : Season
 
     public override IEnumerable<SeasonEvent> PossibleEvents { get; } = new List<SeasonEvent>
     {
-        new SeasonEvent(SeasonEventType.GentleBreeze, 3f, 1f),
-        new SeasonEvent(SeasonEventType.LightShower, 3f, 1f),
-        new SeasonEvent(SeasonEventType.StrongWinds, 3f, 0.5f),
-        new SeasonEvent(SeasonEventType.TorrentialDownpour, 3f, 0.25f),
+        new SeasonEvent(SeasonEventType.None, 3f, 20f),
+        new SeasonEvent(SeasonEventType.GentleRain, 3f, 50f),
+        new SeasonEvent(SeasonEventType.MeteoriteStorm, 3f, 5f),
+        new SeasonEvent(SeasonEventType.AsteroidStrike, 3f, 5f),
+        new SeasonEvent(SeasonEventType.Tornado, 3f, 20f),
     };
 }

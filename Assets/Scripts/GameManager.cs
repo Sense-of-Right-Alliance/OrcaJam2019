@@ -8,8 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public GameState GameState { get; set; } = GameState.GameStarting;
 
-    public Scarecrow[] scarecrows = new Scarecrow[4];
-
     public class YearChangedEvent : UnityEvent<int> { }
     public YearChangedEvent OnYearChanged { get; } = new YearChangedEvent();
 

@@ -14,6 +14,8 @@ public class Scarecrow : MonoBehaviour
 
     private readonly Dictionary<ScarecrowPartType, ScarecrowPart> _parts = new Dictionary<ScarecrowPartType, ScarecrowPart>();
 
+    public bool IsIntact => state != ScarecrowState.Dead;
+
     private void Start()
     {
         _parts[ScarecrowPartType.Head] = head;
@@ -30,6 +32,22 @@ public class Scarecrow : MonoBehaviour
     private void Update()
     {
 
+    }
+
+    public void DamageRandomPart(int amount)
+    {
+        var intactParts = _parts.Where(p => p.Value.State == ScarecrowPartState.Intact);
+        var randomPart = _parts.ElementAt(Random.Range(0, intactParts.Count()));
+        DamagePart(randomPart.Key, amount);
+    }
+
+    public void DamageAllParts(int amount)
+    {
+        var intactParts = _parts.Where(p => p.Value.State == ScarecrowPartState.Intact);
+        foreach (var part in intactParts)
+        {
+            DamagePart(part.Key, amount);
+        }
     }
 
     public void DamagePart(ScarecrowPartType partType, int amount)
@@ -50,6 +68,48 @@ public class Scarecrow : MonoBehaviour
         if (_parts.ContainsKey(partType))
         {
             _parts[partType].Repair(amount);
+        }
+    }
+
+    public void SetWet()
+    {
+        switch (state)
+        {
+            case ScarecrowState.Alive:
+                state = ScarecrowState.Wet;
+                break;
+            case ScarecrowState.Aflame:
+                state = ScarecrowState.Alive;
+                break;
+        }
+    }
+
+    public void RemoveWet()
+    {
+        if (state == ScarecrowState.Wet)
+        {
+            state = ScarecrowState.Alive;
+        }
+    }
+
+    public void SetAflame()
+    {
+        switch (state)
+        {
+            case ScarecrowState.Alive:
+                state = ScarecrowState.Aflame;
+                break;
+            case ScarecrowState.Wet:
+                state = ScarecrowState.Alive;
+                break;
+        }
+    }
+
+    public void RemoveAflame()
+    {
+        if (state == ScarecrowState.Aflame)
+        {
+            state = ScarecrowState.Alive;
         }
     }
 }
