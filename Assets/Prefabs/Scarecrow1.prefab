@@ -69,7 +69,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: acdad9b2680e60349b833013fc328d82, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 781d93e6491abec46b69ba909fc4b97f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -149,7 +149,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: acdad9b2680e60349b833013fc328d82, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 781d93e6491abec46b69ba909fc4b97f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -229,7 +229,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3b4e45d08e6bb2143bdcc0427d4b616d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3bd26c3ae85609b44bf48e34125ccbd5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -250,7 +250,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4225234183648479567}
   - component: {fileID: 4225234183648479564}
-  - component: {fileID: 7369402472594098915}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -284,57 +283,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxDurability: 100
+  PartGraphics:
+  - {fileID: 21300000, guid: f388e69c74ac41f44b256f109d450f65, type: 3}
+  - {fileID: 21300000, guid: 09c5dbbf493807a4e8c68b85217af3c4, type: 3}
+  - {fileID: 21300000, guid: 3bd26c3ae85609b44bf48e34125ccbd5, type: 3}
+  spriteRenderer: {fileID: 65546091537841686}
   type: 0
-  durability: 100
---- !u!212 &7369402472594098915
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4225234183648479566}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &4225234184866767256
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,8 +333,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxDurability: 100
+  PartGraphics:
+  - {fileID: 21300000, guid: d9cd0f689ed589d4983f5b5221ab210e, type: 3}
+  - {fileID: 21300000, guid: 48c68992676bd324aadcd5255f2906f8, type: 3}
+  - {fileID: 21300000, guid: 781d93e6491abec46b69ba909fc4b97f, type: 3}
+  spriteRenderer: {fileID: 750808820575713757}
   type: 2
-  durability: 100
 --- !u!1 &4225234184867508344
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,8 +383,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxDurability: 100
+  PartGraphics:
+  - {fileID: 21300000, guid: d9cd0f689ed589d4983f5b5221ab210e, type: 3}
+  - {fileID: 21300000, guid: 48c68992676bd324aadcd5255f2906f8, type: 3}
+  - {fileID: 21300000, guid: 781d93e6491abec46b69ba909fc4b97f, type: 3}
+  spriteRenderer: {fileID: 3301467393886647497}
   type: 1
-  durability: 100
 --- !u!1 &4225234184995541020
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,8 +533,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5baa6bb9e2d77b64fbfe8a62380c044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxDurability: 100
+  PartGraphics:
+  - {fileID: 21300000, guid: 70179ece200d8724b98face41216e579, type: 3}
+  - {fileID: 21300000, guid: 8003a0c9699be964db308b9efc050882, type: 3}
+  - {fileID: 21300000, guid: 4d338fc6d4dc114448031f40b1def278, type: 3}
+  spriteRenderer: {fileID: 6261504937849277363}
   type: 3
-  durability: 100
 --- !u!1 &5382142141587066770
 GameObject:
   m_ObjectHideFlags: 0
