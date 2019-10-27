@@ -34,8 +34,8 @@ public class UIManager : MonoBehaviour
         
         Utility.GameManager.OnCountdownChanged.AddListener(CountdownChangedHandler);
         Utility.GameManager.OnYearChanged.AddListener(YearChangedHandler);
-        Utility.SeasonManager.OnSeasonChanged.AddListener(OnSeasonChangedHandler);
-        Utility.SeasonManager.OnSeasonEventChanged.AddListener(OnSeasonEventChangedHandler);
+        Utility.SeasonManager.OnSeasonChanged.AddListener(SeasonChangedHandler);
+        Utility.SeasonManager.OnSeasonEventChanged.AddListener(SeasonEventChangedHandler);
         Player.OnResourceChanged.AddListener(ResourceChangedHandler);
     }
 
@@ -59,12 +59,12 @@ public class UIManager : MonoBehaviour
         yearText.text = year.ToString();
     }
 
-    private void OnSeasonChangedHandler(SeasonType season)
+    private void SeasonChangedHandler(SeasonType season)
     {
         seasonText.text = season.ToString();
     }
 
-    private void OnSeasonEventChangedHandler(SeasonEventType seasonEvent)
+    private void SeasonEventChangedHandler(SeasonEventType seasonEvent)
     {
         seasonEventText.text = null;
         seasonEventText.text = seasonEvent == SeasonEventType.None ? null : seasonEvent.ToString();
