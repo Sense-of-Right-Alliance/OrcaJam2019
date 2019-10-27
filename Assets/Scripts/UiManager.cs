@@ -5,25 +5,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class UiManager : MonoBehaviour
 {
-    public TextMeshProUGUI countdownText;
-    public TextMeshProUGUI yearText;
-    public TextMeshProUGUI seasonText;
-    public TextMeshProUGUI seasonEventText;
+    [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private TextMeshProUGUI yearText;
+    [SerializeField] private TextMeshProUGUI seasonText;
+    [SerializeField] private TextMeshProUGUI seasonEventText;
 
-    public TextMeshProUGUI resourceText1;
-    public TextMeshProUGUI resourceText2;
-    public TextMeshProUGUI resourceText3;
-    public TextMeshProUGUI resourceText4;
+    [SerializeField] private TextMeshProUGUI resourceText1;
+    [SerializeField] private TextMeshProUGUI resourceText2;
+    [SerializeField] private TextMeshProUGUI resourceText3;
+    [SerializeField] private TextMeshProUGUI resourceText4;
 
-    private TextMeshProUGUI[] _resourceTexts;
+    [SerializeField] private Image resourceImage1;
+    [SerializeField] private Image resourceImage2;
+    [SerializeField] private Image resourceImage3;
+    [SerializeField] private Image resourceImage4;
 
-    public Image resourceImage1;
-    public Image resourceImage2;
-    public Image resourceImage3;
-    public Image resourceImage4;
-    private Image[] _resourceImages;
+    private List<TextMeshProUGUI> _resourceTexts;
+    private List<Image> _resourceImages;
 
     private void Awake()
     {
@@ -36,13 +36,13 @@ public class UIManager : MonoBehaviour
         if (resourceText2 == null) resourceText2 = GameObject.Find("Resource2").GetComponentInChildren<TextMeshProUGUI>();
         if (resourceText3 == null) resourceText3 = GameObject.Find("Resource3").GetComponentInChildren<TextMeshProUGUI>();
         if (resourceText4 == null) resourceText4 = GameObject.Find("Resource4").GetComponentInChildren<TextMeshProUGUI>();
-        _resourceTexts = new[] { resourceText1, resourceText2, resourceText3, resourceText4 };
+        _resourceTexts = new List<TextMeshProUGUI> { resourceText1, resourceText2, resourceText3, resourceText4 };
 
         if (resourceImage1 == null) resourceImage1 = GameObject.Find("Resource1").GetComponentInChildren<Image>();
         if (resourceImage2 == null) resourceImage2 = GameObject.Find("Resource2").GetComponentInChildren<Image>();
         if (resourceImage3 == null) resourceImage3 = GameObject.Find("Resource3").GetComponentInChildren<Image>();
         if (resourceImage4 == null) resourceImage4 = GameObject.Find("Resource4").GetComponentInChildren<Image>();
-        _resourceImages = new Image[] { resourceImage1, resourceImage2, resourceImage3, resourceImage4 };
+        _resourceImages = new List<Image> { resourceImage1, resourceImage2, resourceImage3, resourceImage4 };
 
         Utility.GameManager.OnCountdownChanged.AddListener(CountdownChangedHandler);
         Utility.GameManager.OnYearChanged.AddListener(YearChangedHandler);

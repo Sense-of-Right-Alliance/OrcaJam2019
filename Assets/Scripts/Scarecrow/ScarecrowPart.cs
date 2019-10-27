@@ -6,13 +6,16 @@ using UnityEngine;
 
 public class ScarecrowPart : MonoBehaviour
 {
-    [SerializeField] int MaxDurability = 100;
-    [SerializeField] int durability = 0;
+    private const int MaxDurability = 100;
 
-    [SerializeField] Sprite[] PartGraphics;
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] private ScarecrowPartType type;
 
-    public ScarecrowPartType type;
+    [SerializeField] int durability = MaxDurability;
+
+    [SerializeField] private Sprite[] partGraphics;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    public ScarecrowPartType Type => type;
 
     public ScarecrowPartState State => durability > 0 ? ScarecrowPartState.Intact : ScarecrowPartState.Ruined;
 
@@ -66,8 +69,8 @@ public class ScarecrowPart : MonoBehaviour
         else
         {
             spriteRenderer.enabled = true;
-            int index = Mathf.FloorToInt(((float)durability / (float)MaxDurability) * PartGraphics.Length);
-            spriteRenderer.sprite = PartGraphics[index];
+            int index = Mathf.FloorToInt(((float)durability / (float)MaxDurability) * partGraphics.Length);
+            spriteRenderer.sprite = partGraphics[index];
         }
     }
 }
