@@ -4,6 +4,7 @@ using System.Linq;
 
 public enum SeasonEventType
 {
+    None,
     GentleBreeze,
     StrongWinds,
     LightShower,

@@ -22,12 +22,19 @@ public class SeasonManager : MonoBehaviour
 
     private int _currentSeasonEventIndex = 0;
 
-    public SeasonEvent CurrentSeasonEvent => _currentSeasonEvents.Count() > _currentSeasonEventIndex ? _currentSeasonEvents.ElementAt(_currentSeasonEventIndex) : null;
+    public SeasonEvent CurrentSeasonEvent => _currentSeasonEventIndex < _currentSeasonEvents.Count() ? _currentSeasonEvents.ElementAt(_currentSeasonEventIndex) : null;
 
     public int eventsPerSeason = 3;
 
     public class SeasonChangedEvent : UnityEvent<SeasonType> { }
     public SeasonChangedEvent OnSeasonChanged { get; } = new SeasonChangedEvent();
+
+    public class SeasonEventChangedEvent : UnityEvent<SeasonEventType> { }
+    public SeasonEventChangedEvent OnSeasonEventChanged { get; } = new SeasonEventChangedEvent();
+
+    public UnityEvent OnSeasonEnded { get; } = new UnityEvent();
+
+    public UnityEvent OnYearEnded { get; } = new UnityEvent();
 
     public float timePassingDuration = 5f;
 
@@ -43,29 +50,75 @@ public class SeasonManager : MonoBehaviour
 
     }
 
-    private void NextSeason()
+    public void BeginYear()
     {
-        _timePassageCinematicManager.PassTime(timePassingDuration);
+        GetEventsForSeason();
+
+        StartCoroutine(ProcessSeasonEvents());
+    }
+
+    public void BeginNextSeason()
+    {
+        GetEventsForSeason();
+
+        StartCoroutine(ProcessSeasonEvents());
+    }
+
+    IEnumerator ProcessSeasonEvents()
+    {
+        OnSeasonEventChanged.Invoke(CurrentSeasonEvent.Type);
+
+        foreach (var seasonEvent in _currentSeasonEvents)
+        {
+            // TODO: process season event (display animations, damage scarecrows, collect resources, etc.)
+            yield return new WaitForSeconds(seasonEvent.Duration);
+            FinishSeasonEvent();
+        }
+    }
+
+    private void ChangeSeason()
+    {
+        //_timePassageCinematicManager.PassTime(timePassingDuration);
 
         currentSeasonType = currentSeasonType.NextSeasonType();
         OnSeasonChanged.Invoke(currentSeasonType);
-
-        _currentSeasonEvents = CurrentSeason.SelectRandomizedEvents(eventsPerSeason);
-        _currentSeasonEventIndex = 0;
     }
 
-    private void NextSeasonEvent()
+    private void FinishSeasonEvent()
     {
         _currentSeasonEventIndex += 1;
-        if (_currentSeasonEventIndex >= _currentSeasonEvents.Count())
+        if (_currentSeasonEventIndex < _currentSeasonEvents.Count())
+        {
+            OnSeasonEventChanged.Invoke(CurrentSeasonEvent.Type);
+        }
+        else
         {
             ClearSeasonEvents();
+
+            OnSeasonEventChanged.Invoke(SeasonEventType.None);
+
+            if (CurrentSeason.Type == SeasonType.Summer)
+            {
+                OnYearEnded.Invoke();
+            }
+            else
+            {
+                OnSeasonEnded.Invoke();
+            }
+
+            ChangeSeason();
         }
     }
 
     private void ClearSeasonEvents()
     {
         _currentSeasonEvents = new List<SeasonEvent>();
+        _currentSeasonEventIndex = 0;
+    }
+
+    private void GetEventsForSeason()
+    {
+        _currentSeasonEvents = CurrentSeason.SelectRandomizedEvents(eventsPerSeason);
         _currentSeasonEventIndex = 0;
     }
 }
