@@ -5,11 +5,17 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] int id;
     [SerializeField] int resources = 0;
-    [SerializeField] int id = 0;
 
     [SerializeField] GameObject selectorPrefab;
     [SerializeField] GameObject resourceGooberPrefab;
+
+    public int Id
+    {
+        get => id;
+        set => id = value;
+    }
 
     public class ResourceChangedEvent : UnityEvent<int, int> { }
     public static ResourceChangedEvent OnResourceChanged { get; } = new ResourceChangedEvent();
@@ -20,7 +26,7 @@ public class Player : MonoBehaviour
         set
         {
             resources = value;
-            OnResourceChanged.Invoke(0, resources);
+            OnResourceChanged.Invoke(Id, resources);
         }
     }
 
@@ -29,15 +35,13 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _selector = Instantiate(selectorPrefab);
-        _selector.GetComponent<PlayerSelector>().Init(this);
-
         _uiManager = Utility.UiManager;
     }
 
     private void Start()
     {
-
+        _selector = Instantiate(selectorPrefab);
+        _selector.GetComponent<PlayerSelector>().Init(this);
     }
 
     private void Update()
@@ -56,7 +60,7 @@ public class Player : MonoBehaviour
             for (int i = 0; i < repairAmount; i++)
             {
                 var goober = Instantiate(resourceGooberPrefab);
-                goober.transform.position = _uiManager.GetPlayerResourceBoxPosition(id);
+                goober.transform.position = _uiManager.GetPlayerResourceBoxPosition(Id);
                 Vector2 target = _selector.transform.position;//part.transform.TransformPoint(part.transform.position);
                 goober.GetComponent<ResourceGoober>().SetTarget(target);
             }

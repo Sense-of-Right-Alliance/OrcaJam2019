@@ -45,4 +45,16 @@ public class ScarecrowManager : MonoBehaviour
     {
         
     }
+
+    public void ReassignPlayersToScarecrows(Player[] players)
+    {
+        var defaultPlayer = players.First(p => p != null);
+
+        int id = 0;
+        foreach (var scarecrow in ScarecrowsLeftToRight)
+        {
+            var player = players[id++];
+            scarecrow.Player = player != null ? player : defaultPlayer;
+        }
+    }
 }

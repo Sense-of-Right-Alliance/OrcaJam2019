@@ -62,6 +62,7 @@ public class PlayerSelector : MonoBehaviour
     public void Init(Player p)
     {
         _player = p;
+        inputIndex = p.Id + 1;
     }
 
     private void RepairScarecrow()
