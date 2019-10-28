@@ -94,6 +94,7 @@ public class Scarecrow : MonoBehaviour
         if (_parts.Values.All(p => p.State == ScarecrowPartState.Ruined))
         {
             state = ScarecrowState.Dead;
+            fireObject.SetActive(false);
         }
     }
 
@@ -129,13 +130,11 @@ public class Scarecrow : MonoBehaviour
 
     public void SetAflame()
     {
-        Debug.Log("LIGHT ME ON FIRE " + state.ToString());
         switch (state)
         {
             case ScarecrowState.Alive:
                 state = ScarecrowState.Aflame;
                 fireObject.SetActive(true);
-                Debug.Log("I'M ON FIRE!");
                 break;
             case ScarecrowState.Wet:
                 state = ScarecrowState.Alive;

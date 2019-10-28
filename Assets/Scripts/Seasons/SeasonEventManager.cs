@@ -103,6 +103,11 @@ public class SeasonEventManager : MonoBehaviour
 
     private Scarecrow RandomScarecrow(IReadOnlyCollection<Scarecrow> scarecrows)
     {
+        if (!scarecrows.Any())
+        {
+            return null;
+        }
+
         var index = Random.Range(0, scarecrows.Count);
         return scarecrows.ElementAt(index);
     }
@@ -132,16 +137,19 @@ public class SeasonEventManager : MonoBehaviour
         var intactScarecrows = _scarecrowManager.ScarecrowsLeftToRight.Where(s => s.IsIntact).ToList();
         
         int lightningStrikes = RandomBetween(lightningStrikeCountMin, lightningStrikeCountMax);
-        var targets = new ScarecrowPart[lightningStrikes];
+        var targets = new List<ScarecrowPart>();
         for (int i = 0; i < lightningStrikes; i++)
         {
             var scarecrow = RandomScarecrow(intactScarecrows);
-            var part = scarecrow.GetRandomPart();
-            targets[i] = part;
+            if (scarecrow != null)
+            {
+                var part = scarecrow.GetRandomPart();
+                targets.Add(part);
+            }
         }
 
         var lightningStormVisual = Instantiate(lightningStormVisualPrefab);
-        lightningStormVisual.GetComponent<LightningStormVisual>().Init(duration, lightningStrikes, targets);
+        lightningStormVisual.GetComponent<LightningStormVisual>().Init(duration, targets.Count, targets.ToArray());
 
         StartCoroutine(DelayedThunderstormEffects(targets, duration));
     }
@@ -153,12 +161,13 @@ public class SeasonEventManager : MonoBehaviour
         foreach (var part in parts)
         {
             int damage = RandomBetween(lightningStrikeDamageMin, lightningStrikeDamageMax);
-            part.Damage(damage);
+            part.Scarecrow.DamagePart(part.Type, damage);
 
             if (Random.Range(0f, 1f) < lightningStrikeFireChance)
             {
                 part.Scarecrow.SetAflame();
             }
+
             part.Scarecrow.Player.Resources += (int)(damage * lightningStrikeRefundRate);
         }
     }
@@ -261,15 +270,18 @@ public class SeasonEventManager : MonoBehaviour
             _scarecrowManager.OuterRightScarecrow,
         };
 
-        var targets = new ScarecrowPart[meteorites];
+        var targets = new List<ScarecrowPart>();
         for (int i = 0; i < meteorites; i++)
         {
             var scarecrow = RandomScarecrow(scarecrows);
-            targets[i] = scarecrow.GetRandomPart();
+            if (scarecrow != null)
+            {
+                targets.Add(scarecrow.GetRandomPart());
+            }
         }
 
         var meteoriteVisual = Instantiate(meteoriteShowerVisualPrefab);
-        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().Init(duration, meteorites, targets);
+        meteoriteVisual.GetComponent<MeteoriteShowerVisual>().Init(duration, targets.Count, targets.ToArray());
 
         StartCoroutine(DelayedMeteorStormEffects(targets, duration));
     }
