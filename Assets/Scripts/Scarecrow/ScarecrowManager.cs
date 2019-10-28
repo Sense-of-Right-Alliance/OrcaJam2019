@@ -43,7 +43,19 @@ public class ScarecrowManager : MonoBehaviour
 
     private void Update()
     {
-        
+        int count = 0;
+        foreach (var scarecrow in ScarecrowsLeftToRight)
+        {
+            if (!scarecrow.IsIntact)
+            {
+                count++;
+            }
+        }
+
+        if (count >= ScarecrowsLeftToRight.ToList().Count)
+        {
+            Utility.GameManager.GameOver();
+        }
     }
 
     public void ReassignPlayersToScarecrows(Player[] players)

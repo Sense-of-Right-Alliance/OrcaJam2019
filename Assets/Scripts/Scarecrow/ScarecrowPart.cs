@@ -19,11 +19,14 @@ public class ScarecrowPart : MonoBehaviour
 
     public ScarecrowPartState State => durability > 0 ? ScarecrowPartState.Intact : ScarecrowPartState.Ruined;
 
+    public Scarecrow Scarecrow { get; private set; }
+
     private void Awake()
     {
         //if (spriteRenderer == null) spriteRenderer = transform.parent.parent.GetComponent<SpriteRenderer>();
 
         durability = MaxDurability;
+        Scarecrow = transform.parent.parent.GetComponent<Scarecrow>();
     }
 
     private void Start()
@@ -69,8 +72,10 @@ public class ScarecrowPart : MonoBehaviour
         else
         {
             spriteRenderer.enabled = true;
-            int index = Mathf.FloorToInt(((float)durability / (float)MaxDurability) * partGraphics.Length);
-            //Debug.Log("Scarecrow graphic index = " + index);
+            int index = Mathf.Max(0, Mathf.FloorToInt(((float)durability / (float)MaxDurability) * partGraphics.Length-1));
+            if (durability == MaxDurability) index = partGraphics.Length - 1;
+            if (index < 0 || index >= partGraphics.Length) Debug.Log("Scarecrow graphic index = " + index + " num parts = " + partGraphics.Length);
+
             spriteRenderer.sprite = partGraphics[index];
         }
     }
