@@ -23,6 +23,8 @@ public class SeasonManager : MonoBehaviour
 
     private IList<SeasonEvent> _currentSeasonEvents = new List<SeasonEvent>();
 
+    public bool IsInSeason { get { return _currentSeasonEvents.Count > 0; } }
+
     public class SeasonChangedEvent : UnityEvent<SeasonType> { }
     public class SeasonEventChangedEvent : UnityEvent<SeasonEventType> { }
 
@@ -34,12 +36,14 @@ public class SeasonManager : MonoBehaviour
     private ScarecrowManager _scarecrowManager;
     private SeasonEventManager _seasonEventManager;
     private TimePassageCinematicManager _timePassageCinematicManager;
+    private UiManager _uiManager;
 
     private void Start()
     {
         _scarecrowManager = Utility.ScarecrowManager;
         _seasonEventManager = Utility.SeasonEventManager;
         _timePassageCinematicManager = Utility.TimePassageCinematicManager;
+        _uiManager = Utility.UiManager;
     }
 
     private void Update()
@@ -65,14 +69,24 @@ public class SeasonManager : MonoBehaviour
     {
         Debug.Log("Your forecast for " + CurrentSeason.Type + ": " + string.Join(", ", _currentSeasonEvents.Select(e => e.Type)));
 
+        if (CurrentSeason.Type == SeasonType.Summer)
+        {
+            foreach (var scarecrow in _scarecrowManager.ScarecrowsLeftToRight)
+            {
+                scarecrow.RemoveWet();
+            }
+        }
+
         float duration = 0f;
         for (int i = 0; i < _currentSeasonEvents.Count; i++)
         {
             var seasonEvent = _currentSeasonEvents.ElementAt(i);
             duration += seasonEvent.Duration;
         }
-        Debug.Log("duration for time pass = " + duration);
+
         _timePassageCinematicManager.PassTime(duration);
+
+        _uiManager.PlayNextSeasonOnBar((int)CurrentSeason.Type, duration);
 
         for (int i = 0; i < _currentSeasonEvents.Count; i++)
         {

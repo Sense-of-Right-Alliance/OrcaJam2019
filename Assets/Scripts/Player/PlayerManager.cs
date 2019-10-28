@@ -77,12 +77,15 @@ public class PlayerManager : MonoBehaviour
     public void PlaySpiderSwarms()
     {
         List<Scarecrow> scarecrows = _scarecrowManager.ScarecrowsLeftToRight.ToList();
-        for (int i = 0; i < Players.Count; i++)
+        for (int i = 0; i < scarecrows.Count; i++)
         {
-            GameObject spiders = Instantiate(SpiderSwarmVisualPrefab);
+            if (scarecrows[i].IsIntact)
+            {
+                GameObject spiders = Instantiate(SpiderSwarmVisualPrefab);
 
-            spiders.transform.position = new Vector3(scarecrows[i].transform.position.x, scarecrows[i].transform.position.y -5, 10);
-            spiders.GetComponent<SpiderSwarmVisual>().SetTarget(new Vector3(scarecrows[i].transform.position.x, scarecrows[i].transform.position.y, 10));
+                spiders.transform.position = new Vector3(scarecrows[i].transform.position.x, scarecrows[i].transform.position.y - 5, 10);
+                spiders.GetComponent<SpiderSwarmVisual>().SetTarget(new Vector3(scarecrows[i].transform.position.x, scarecrows[i].transform.position.y, 10));
+            }
         }
     }
 }

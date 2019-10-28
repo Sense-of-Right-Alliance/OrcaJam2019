@@ -13,12 +13,21 @@ public class PlayerSelector : MonoBehaviour
 
     private bool _inputReset = true; // have to set dir/pad back to 0 before moving again. This is weird and I'm sorry.
 
+    private SeasonManager _seasonManager;
     private ScarecrowManager _scarecrowManager;
     private Player _player;
+
+    private float fireRate = 0.1f; // bones per sec
+    private bool boned = false;
+    private float fireTimer = 0f;
+
+    private SpriteRenderer _spriteRenderer;
 
     private void Start()
     {
         _scarecrowManager = Utility.ScarecrowManager;
+        _seasonManager = Utility.SeasonManager;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         _scarecrowSelected = _scarecrowManager.ScarecrowsLeftToRight.First();
         UpdateSelection();
@@ -26,6 +35,8 @@ public class PlayerSelector : MonoBehaviour
 
     private void Update()
     {
+        _spriteRenderer.enabled = !_seasonManager.IsInSeason;
+
         bool madeInput = false;
 
         float horizontal = Input.GetAxis("Horizontal" + inputIndex);
@@ -45,12 +56,29 @@ public class PlayerSelector : MonoBehaviour
             _inputReset = false;
             madeInput = true;
         }
-
-        if (Input.GetButtonDown("A" + inputIndex))
+        
+        if (Input.GetButton("A" + inputIndex) && !_seasonManager.IsInSeason)
         {
-            RepairScarecrow();
-            _inputReset = false;
-            madeInput = true;
+            if (!boned)
+            {
+                RepairScarecrow();
+                //_inputReset = false;
+                madeInput = true;
+                boned = true;
+
+                fireTimer = fireRate;
+            }
+            else
+            {
+                fireTimer -= Time.deltaTime;
+                if (fireTimer <= 0f)
+                {
+                    boned = false;
+                }
+            }
+        } else
+        {
+            boned = false;
         }
 
         _inputReset = !madeInput;

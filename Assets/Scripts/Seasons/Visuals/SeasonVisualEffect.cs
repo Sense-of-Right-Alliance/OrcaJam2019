@@ -30,9 +30,15 @@ public class SeasonVisualEffect : MonoBehaviour
             _timer -= Time.deltaTime;
             if (_timer <= 0f)
             {
+                CleanUp();
                 Destroy(gameObject);
             }
         }
+    }
+
+    protected virtual void CleanUp()
+    {
+
     }
 
     protected virtual void UpdateVisuals()

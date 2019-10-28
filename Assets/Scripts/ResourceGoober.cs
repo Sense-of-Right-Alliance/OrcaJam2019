@@ -5,6 +5,8 @@ using UnityEngine;
 public class ResourceGoober : MonoBehaviour
 {
     [SerializeField] float speed = 1f;
+    [SerializeField] Sprite[] sprites;
+
     Vector2 target;
     Vector2 start;
 
@@ -31,7 +33,7 @@ public class ResourceGoober : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0,sprites.Length-1)];
     }
 
     // Update is called once per frame

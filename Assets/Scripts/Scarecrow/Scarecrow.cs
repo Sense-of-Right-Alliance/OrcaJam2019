@@ -6,6 +6,7 @@ using UnityEngine;
 public class Scarecrow : MonoBehaviour
 {
     [SerializeField] private ScarecrowState state = ScarecrowState.Alive;
+    [SerializeField] private GameObject fireObject;
 
     [SerializeField] private ScarecrowPart head;
     [SerializeField] private ScarecrowPart leftArm;
@@ -17,6 +18,7 @@ public class Scarecrow : MonoBehaviour
     private readonly Dictionary<ScarecrowPartType, ScarecrowPart> _parts = new Dictionary<ScarecrowPartType, ScarecrowPart>();
 
     public bool IsIntact => state != ScarecrowState.Dead;
+    public bool IsAflame => state == ScarecrowState.Aflame;
 
     public ScarecrowPart[] Parts => new[] { peg, leftArm, rightArm, head };
 
@@ -26,6 +28,8 @@ public class Scarecrow : MonoBehaviour
         _parts[ScarecrowPartType.LeftArm] = leftArm;
         _parts[ScarecrowPartType.RightArm] = rightArm;
         _parts[ScarecrowPartType.Peg] = peg;
+
+        fireObject.SetActive(false);
     }
 
     private void Update()
@@ -33,21 +37,46 @@ public class Scarecrow : MonoBehaviour
 
     }
 
+    public ScarecrowPart GetRandomPart()
+    {
+        var intactParts = _parts.Where(p => p.Value.State == ScarecrowPartState.Intact);
+        if (intactParts.Any())
+        {
+            return intactParts.ElementAt(Random.Range(0, intactParts.Count())).Value;
+        }
+        else
+        {
+            return peg;
+        }
+    }
+
     public ScarecrowPart DamageRandomPart(int amount)
     {
         var intactParts = _parts.Where(p => p.Value.State == ScarecrowPartState.Intact);
-        var randomPart = _parts.ElementAt(Random.Range(0, intactParts.Count()));
-        DamagePart(randomPart.Key, amount);
-        return randomPart.Value;
+        if (intactParts.Any())
+        {
+            var randomPart = intactParts.ElementAt(Random.Range(0, intactParts.Count()));
+            DamagePart(randomPart.Key, amount);
+            return randomPart.Value;
+        }
+        else
+        {
+            return peg;
+        }
     }
 
-    public void DamageAllParts(int amount)
+    public List<ScarecrowPart> DamageAllParts(int amount)
     {
+        List<ScarecrowPart> hitParts = new List<ScarecrowPart>();
+
         var intactParts = _parts.Where(p => p.Value.State == ScarecrowPartState.Intact);
         foreach (var part in intactParts)
         {
             DamagePart(part.Key, amount);
+            hitParts.Add(part.Value);
         }
+
+        return hitParts;
     }
 
     public void DamagePart(ScarecrowPartType partType, int amount)
@@ -55,6 +84,11 @@ public class Scarecrow : MonoBehaviour
         if (_parts.ContainsKey(partType))
         {
             _parts[partType].Damage(amount);
+        }
+
+        if (partType == ScarecrowPartType.Peg && _parts[partType].State == ScarecrowPartState.Ruined)
+        {
+            transform.Find("Sprites").Find("Dead").GetComponent<SpriteRenderer>().enabled = true;
         }
 
         if (_parts.Values.All(p => p.State == ScarecrowPartState.Ruined))
@@ -80,6 +114,7 @@ public class Scarecrow : MonoBehaviour
                 break;
             case ScarecrowState.Aflame:
                 state = ScarecrowState.Alive;
+                fireObject.SetActive(false);
                 break;
         }
     }
@@ -94,10 +129,13 @@ public class Scarecrow : MonoBehaviour
 
     public void SetAflame()
     {
+        Debug.Log("LIGHT ME ON FIRE " + state.ToString());
         switch (state)
         {
             case ScarecrowState.Alive:
                 state = ScarecrowState.Aflame;
+                fireObject.SetActive(true);
+                Debug.Log("I'M ON FIRE!");
                 break;
             case ScarecrowState.Wet:
                 state = ScarecrowState.Alive;
@@ -110,6 +148,7 @@ public class Scarecrow : MonoBehaviour
         if (state == ScarecrowState.Aflame)
         {
             state = ScarecrowState.Alive;
+            fireObject.SetActive(false);
         }
     }
 }

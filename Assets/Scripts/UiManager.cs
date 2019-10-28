@@ -18,6 +18,8 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject resource3;
     [SerializeField] private GameObject resource4;
 
+    [SerializeField] SeasonTrackerBar seasonBar;
+
     private List<GameObject> _resources;
     private List<TextMeshProUGUI> _resourceTexts;
     private List<Image> _resourceImages;
@@ -33,6 +35,8 @@ public class UiManager : MonoBehaviour
         if (resource2 == null) resource2 = GameObject.Find("Resource2");
         if (resource3 == null) resource3 = GameObject.Find("Resource3");
         if (resource4 == null) resource4 = GameObject.Find("Resource4");
+
+        if (seasonBar == null) seasonBar = GameObject.Find("SeasonTrackerBar").GetComponent<SeasonTrackerBar>();
 
         _resources = new List<GameObject> { resource1, resource2, resource3, resource4};
         _resourceTexts = _resources.Select(r => r.GetComponentInChildren<TextMeshProUGUI>()).ToList();
@@ -103,5 +107,10 @@ public class UiManager : MonoBehaviour
     public Vector2 GetPlayerResourceBoxPosition(int playerId)
     {
         return Camera.main.ScreenToWorldPoint(_resourceImages[playerId].rectTransform.transform.position);
+    }
+
+    public void PlayNextSeasonOnBar(int seasonId, float duration)
+    {
+        seasonBar.PlaySeason(seasonId, duration);
     }
 }

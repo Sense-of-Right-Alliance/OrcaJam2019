@@ -17,7 +17,7 @@ public class MeteoriteShowerVisual : HazySeasonVisualEffect
         for (int i = 0; i < meteoriteCount; i++)
         {
             meteorites[i] = Instantiate(meteoritePrefab);
-            meteorites[i].transform.position = new Vector3(xSpawnOffset + Random.Range(-1,1),6,10);
+            meteorites[i].transform.position = new Vector3(xSpawnOffset + Random.Range(-2,2),6,10);
             //Vector3 target = new Vector3(0, 0, meteorites[i].transform.position.z);
             meteorites[i].GetComponent<Meteorite>().SetTarget(targets[i].transform.position, delay * i);
         }

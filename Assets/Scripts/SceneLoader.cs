@@ -12,6 +12,14 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ExitApplication();
+        }
+    }
+
     public void LoadFirstScene()
     {
         SceneManager.LoadScene(0);
